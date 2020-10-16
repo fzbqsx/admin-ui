@@ -1,5 +1,5 @@
 <template>
-  <div class="bodyDiv1 bodyDiv2">
+  <div class="bodyDiv1 bodyDiv2 bodyDiv3">
     <div class="loginDiv ">
       <div  :style="{width: divWidth + 'px' }" class="imgDiv ">
         <router-link to="/Home" class="routerLink">
@@ -19,10 +19,10 @@
                 <input v-model="loginInfo.loginUserName" class="input userLoginInput" type="text" placeholder="用户名">
                 <img class="icon is-left" style="height: 24px; width: 24px;margin: 8px" src="../../assets/login/路径 4304.png"/>
               </p>
-              <p class="control has-icons-left">
-                <input v-model="loginInfo.loginPassword" class="input userLoginInput" type="password" placeholder="密码">
-                <img class="icon is-left" style="height: 24px; width: 24px;margin: 8px" src="../../assets/login/组 5609.png"/>
-              </p>
+                <form class="control has-icons-left">
+                  <input v-model="loginInfo.loginPassword" class="input userLoginInput" type="password" placeholder="密码">
+                  <img class="icon is-left" style="height: 24px; width: 24px;margin: 8px" src="../../assets/login/组 5609.png"/>
+                </form>
             </div>
 
             <!-- 验证码登录 -->
@@ -59,8 +59,8 @@
 
 <script>
 // import { login } from './js/LoginOrRegister'
-import {AUTH_TOKEN} from "@/store/mutation-type";
-import {mapActions, mapGetters, mapMutations} from "vuex";
+import {AUTH_TOKEN,AUTH_SESSION} from "@/store/mutation-type";
+import {mapActions, } from "vuex";
 export default {
   name: "Login",
   data (){
@@ -74,11 +74,10 @@ export default {
     }
   },
   methods:{
-
     ...mapActions({
-      login: AUTH_TOKEN
+      login: AUTH_TOKEN,
+      userInfo: AUTH_SESSION
     }),
-
 
     resetData(){//重置数据
       this.loginInfo.loginUserName="";
@@ -212,8 +211,14 @@ export default {
 
       this.login(params).then( res => {
         if(200 === res.status && "ok" === res.data.err){
-          this.$router.push({ name: "home" })
+          const redirect = this.$route.query.redirect;
+          if(redirect){
+            this.$router.push({ path: redirect })
+          }else{
+            this.$router.push({ name: "home" })
+          }
           this.$Message.success("登录成功")
+          this.userInfo()
         }else{
           this.$Message.error(res.data.message)
         }

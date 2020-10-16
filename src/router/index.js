@@ -119,23 +119,24 @@ const routes = [
 ]
 
 const router = new VueRouter({
+  model:history,
   routes
 })
 
-// router.beforeEach((to, from, next) => {
-//   if(to.meta.role){
-//     const token =localStorage.getItem('X-AUTH-TOKEN');
-//     if(token){
-//       next();
-//     }else{
-//       next({
-//         path:'/Login',
-//         query:{redirect:to.fullPath}    //把要跳转的页面菜蔬传过去
-//       })
-//     }
-//   }else{
-//     next();
-//   }
-// })
+router.beforeEach((to, from, next) => {
+  if(to.meta.role){
+    const token =localStorage.getItem('AUTH-TOKEN');
+    if(token){
+      next();
+    }else{
+      next({
+        path:'/Login',
+        query:{redirect:to.fullPath}    //把要跳转的页面菜蔬传过去
+      })
+    }
+  }else{
+    next();
+  }
+})
 
 export default router

@@ -2,6 +2,9 @@
     封装axios
  */
 import axios from 'axios'
+import store from '@/store/index'
+import {Message} from 'view-design';
+import router from "@/router";
 
 const env = process.env.NOD_ENV
 export const ENV = {
@@ -29,8 +32,6 @@ axios.interceptors.request.use(
         return config;
     },
     error => {
-        console.log("=====request===========")
-        console.log(error)
         return Promise.resolve(error);
     }
 );
@@ -38,16 +39,64 @@ axios.interceptors.request.use(
 //响应拦截器
 axios.interceptors.response.use(
     response => {
-        console.log("==========response==========")
-        console.log(response)
-        return response.status
+        if (response.status === 200) {
+            return Promise.resolve(response);
+        } else {
+            return Promise.reject(response);
+        }
     },
     error => {
-        console.log("==========error==========")
-        console.log(error)
-        const msg = error.Message !== undefined ? error.Message : ''
+        if (error.response.status) {
+            switch (error.response.status) {
+                case 400:
+                    Message.error ('请求错误')
+                    break
 
-        return Promise.reject(error)
+                case 401:
+                    Message.error  ('未授权，请登录')
+                    router.replace({path: '/Login'});
+                    break
+
+                case 403:
+                    Message.error  ('拒绝访问')
+                    break
+
+                case 404:
+                    Message.error  (`请求地址出错: ${err.response.config.url}`)
+                    break
+
+                case 408:
+                    Message.error  ('请求超时')
+                    break
+
+                case 500:
+                    Message.error  ('服务器内部错误')
+                    break
+
+                case 501:
+                    Message.error  ('服务未实现')
+                    break
+
+                case 502:
+                    Message.error  ('网关错误')
+                    break
+
+                case 503:
+                    Message.error  ('服务不可用')
+                    break
+
+                case 504:
+                    Message.error  ('网关超时')
+                    break
+
+                case 505:
+                    Message.error  ('HTTP版本不受支持')
+                    break
+            }
+        }
+
+        //return error.response
+        return Promise.reject(error.response)
     }
 );
 
@@ -78,11 +127,6 @@ export function post(url, params) {
         axios.post(url, params)
             .then(res => {
                 resolve(res.data);
-                // if(res !== undefined){
-                //     resolve(res.data);
-                // }else{
-                //     reject(res)
-                // }
             })
         .catch(err => {
             reject(err.data)
