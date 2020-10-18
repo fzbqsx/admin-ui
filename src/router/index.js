@@ -123,11 +123,20 @@ const router = new VueRouter({
   routes
 })
 
+
 router.beforeEach((to, from, next) => {
   if(to.meta.role){
     const token =localStorage.getItem('AUTH-TOKEN');
+    const session = sessionStorage.getItem('AUTH-SESSION');
     if(token){
-      next();
+      if(session){
+        next();
+      }else {
+        next({
+          path:'/Login',
+          query:{redirect:to.fullPath}    //把要跳转的页面菜蔬传过去
+        })
+      }
     }else{
       next({
         path:'/Login',
@@ -140,3 +149,5 @@ router.beforeEach((to, from, next) => {
 })
 
 export default router
+
+

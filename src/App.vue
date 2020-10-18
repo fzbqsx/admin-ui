@@ -9,6 +9,8 @@
 // import {mapActions,mapMutations} from "vuex";
 // import {TOKEN_KEY} from "@/global";
 
+// import router from "./router";
+
 export default {
   methods:{
     // ...mapActions({

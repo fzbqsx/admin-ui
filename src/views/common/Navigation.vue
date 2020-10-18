@@ -1,79 +1,93 @@
 <!-- 顶部导航页面 -->
 <template>
   <div class="bodyDiv1 bodyDiv2">
+    <nav class="navbar navDiv" role="navigation" aria-label="main navigation" >
+      <div class="navbar-brand">
+        <a class="navbar-item" href="" >
+          <img src="../../assets/logo_b.png" >
+        </a>
+        <a role="button"  class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample" @click="openMenu">
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+        </a>
+      </div>
+      <div id="navbarBasicExample" class="navbar-menu navbar-menu-div" >
 
+        <router-link class="navbar-item" to="/Home">首页</router-link>
 
-      <nav class="navbar navDiv" role="navigation" aria-label="main navigation" >
-        <div class="navbar-brand">
-          <a class="navbar-item" href="" >
-            <img src="../../assets/logo_b.png" >
-          </a>
-          <a role="button"  class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample" @click="openMenu">
-            <span aria-hidden="true"></span>
-            <span aria-hidden="true"></span>
-            <span aria-hidden="true"></span>
-          </a>
+        <router-link class="navbar-item" to="/GiftShop">礼品商城</router-link>
+
+        <router-link class="navbar-item" to="/Article">行业资讯</router-link>
+
+        <router-link class="navbar-item" to="/Personal">个人中心</router-link>
+
+        <div v-if="!navShowDiv.tokenstr" class="headPortraitBox" @mouseenter="enter" @mouseleave="leave">
+          <img src="../../assets/login/头像.png"/>
         </div>
-        <div id="navbarBasicExample" class="navbar-menu" style="justify-content: space-between">
-
-          <router-link class="navbar-item" to="/Home">首页</router-link>
-
-          <router-link class="navbar-item" to="/GiftShop">礼品商城</router-link>
-
-          <router-link class="navbar-item" to="/Article">行业资讯</router-link>
-
-          <router-link class="navbar-item" to="/Personal">个人中心</router-link>
-
-          <!--        <div v-if="!tokenstr" v-show="menu" class="loginUserInfoBox" >-->
-          <div v-if="!navShowDiv.tokenstr" class="headPortraitBox" @mouseenter="enter" @mouseleave="leave">
-            <img src="../../assets/login/头像.png"/>
-          </div>
-          <!--        </div>-->
-          <div v-else style="display: flex;align-items: center">
-            <router-link to="/Login" class="navbar-item">登录</router-link>/
-            <router-link to="/Register" class="navbar-item">注册</router-link>
-          </div>
-          <div class="operationBox" v-show="navShowDiv.outLogin">
-            <span @click="outLoginButton">退出登录</span>
-          </div>
+        <div v-else style="display: flex;align-items: center">
+          <router-link to="/Login" class="navbar-item">登录</router-link>/
+          <router-link to="/Register" class="navbar-item">注册</router-link>
         </div>
-
-      </nav>
-
-      <div  v-show="navShowDiv.menuitem" class="navbar-dropdown">
-        <router-link v-show="navShowDiv.menuitem" class="menu-item" to="/Home">首页</router-link>
-
-        <router-link v-show="navShowDiv.menuitem" class="menu-item" to="/GiftShop">礼品商城</router-link>
-
-        <router-link v-show="navShowDiv.menuitem" class="menu-item" to="/Article">行业资讯</router-link>
-
-        <router-link v-show="navShowDiv.menuitem" class="menu-item" to="/Personal">个人中心</router-link>
-
-        <div v-if="!navShowDiv.tokenstr" class="menu-item menuOutLogin" v-show="navShowDiv.menuitem" >
+        <div class="operationBox" v-show="navShowDiv.outLogin">
           <span @click="outLoginButton">退出登录</span>
         </div>
-        <div v-else v-show="navShowDiv.menuitem" class="menu-item">
-          <router-link to="/Login" class="menu-item">登录</router-link>/
-          <router-link to="/Register" class="menu-item">注册</router-link>
+      </div>
+    </nav>
+
+    <div  v-show="navShowDiv.menuitem" class="navbar-dropdown">
+      <router-link v-show="navShowDiv.menuitem" class="navbar-item" to="/Home">首页</router-link>
+
+      <router-link v-show="navShowDiv.menuitem" class="navbar-item" to="/GiftShop">礼品商城</router-link>
+
+      <router-link v-show="navShowDiv.menuitem" class="navbar-item" to="/Article">行业资讯</router-link>
+
+      <router-link v-show="navShowDiv.menuitem" class="navbar-item" to="/Personal">个人中心</router-link>
+
+      <div v-if="!navShowDiv.tokenstr"  v-show="navShowDiv.menuitem" class="outLoginDiv">
+        <span @click="outLoginButton" class="navbar-item">退出登录</span>
+      </div>
+      <div v-else v-show="navShowDiv.menuitem" >
+        <router-link to="/Login" class="navbar-item">登录</router-link>
+        <router-link to="/Register" class="navbar-item">注册</router-link>
+      </div>
+    </div>
+
+    <router-view class="contentDiv" />
+    <footer class="footerBox">
+      <div class="footer_box" >
+        <div class="aloneItem">
+          <p>友情链接</p>
+          <p class="qsp" v-for="item in footerDataL.faq " v-bind:key="item.id">{{item.option}}</p>
+        </div>
+        <div class="aloneItem">
+          <p>常见问题</p>
+          <p class="qsp" v-for="item in footerDataL.faq " v-bind:key="item.id">{{item.option}}</p>
+        </div>
+        <div class="aloneItem">
+          <p>技术支持</p>
+          <p class="qsp" v-for="item in footerDataL.faq " v-bind:key="item.id">{{item.option}}</p>
+        </div>
+        <div class="aloneItem imgItem">
+          <img :src="$imgurl(footerDataL.qrcodeUrl)" />
         </div>
       </div>
+      <hr class="hr"/>
+      <p class="qsp">{{footerDataL.copyright}}</p>
+    </footer>
 
-
-
-
-    <div class="contentDiv">
-      <router-view style="height: auto" />
-    </div>
   </div>
 </template>
 
 <script>
 import { logout } from '../loginOrRegister/js/LoginOrRegister'
+import {querySysConfig} from "./js/Navigation";
 export default {
   name: "Navigation",
   data(){
     return {
-      navShowDiv:{menu:true,tokenstr:false,outLogin:false,menuitem:true}
+      navShowDiv:{menu:true,tokenstr:false,outLogin:false,menuitem:false},
+      footerDataL:{blogrollp:{},blogrollimg:{},faq:{},technicalsupport:{},qrcodeUrl:"",copyright:""}
     }
   },
   methods:{
@@ -95,7 +109,11 @@ export default {
       },1500)
     },
     openMenu(){
-
+      if(this.navShowDiv.menuitem){
+        this.navShowDiv.menuitem=false;
+      }else {
+        this.navShowDiv.menuitem=true
+      }
     },
     outLoginButton(){
       logout({}).then(res=>{
@@ -109,9 +127,85 @@ export default {
         }
       })
     },
+
+    getSysConfig(){//获取底部系统参数
+      querySysConfig(
+              {sysName:'qrcode',
+                query: {
+                  createTime: {
+                    sort: 'asc'
+                  }
+                }
+              }).then(res=>{
+        if("ok"===res.err){
+          this.footerDataL.qrcodeUrl=res.data[0].option;
+        }
+      });
+      querySysConfig(
+              {sysName:'copyright',
+                query: {
+                  createTime: {
+                    sort: 'asc'
+                  }
+                }
+              }).then(res=>{
+        if("ok"===res.err){
+          this.footerDataL.copyright=res.data[0].option;
+        }
+      });
+      querySysConfig(
+              {sysName:'blogroll',
+                query: {
+                  createTime: {
+                    sort: 'asc'
+                  }
+                }
+              }).then(res=>{
+        if("ok"===res.err){
+          const blogroll=res.data;
+          var blogrolla = [];
+          var blogrollb = [];
+          blogroll.forEach(function (item) {
+            if(0===item.type){
+              blogrolla.push(item)
+            }else{
+              blogrollb.push(item);
+            }
+          })
+          this.footerDataL.blogrollp=blogrolla;
+          this.footerDataL.blogrollimg=blogrollb;
+
+        }
+      });
+      querySysConfig(
+              {sysName:'faq',
+                query: {
+                  createTime: {
+                    sort: 'asc'
+                  }
+                }
+              }).then(res=>{
+        if("ok"===res.err){
+          this.footerDataL.faq=res.data;
+        }
+      });
+      querySysConfig(
+              {sysName:'technicalsupport',
+                query: {
+                  createTime: {
+                    sort: 'asc'
+                  }
+                }
+              }).then(res=>{
+        if("ok"===res.err){
+          this.footerDataL.technicalsupport=res.data;
+        }
+      });
+    },
   },
   mounted() {
     this.loginstatus();
+    this.getSysConfig();
   }
 }
 </script>
