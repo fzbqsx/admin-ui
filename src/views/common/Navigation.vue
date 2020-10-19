@@ -52,23 +52,22 @@
         <router-link to="/Register" class="navbar-item">注册</router-link>
       </div>
     </div>
-
     <router-view class="contentDiv" />
     <footer class="footerBox">
-      <div class="footer_box" >
-        <div class="aloneItem">
+      <div class="footer_box columns">
+        <div class="aloneItem column">
           <p>友情链接</p>
           <p class="qsp" v-for="item in footerDataL.faq " v-bind:key="item.id">{{item.option}}</p>
         </div>
-        <div class="aloneItem">
+        <div class="aloneItem column" >
           <p>常见问题</p>
           <p class="qsp" v-for="item in footerDataL.faq " v-bind:key="item.id">{{item.option}}</p>
         </div>
-        <div class="aloneItem">
+        <div class="aloneItem column">
           <p>技术支持</p>
           <p class="qsp" v-for="item in footerDataL.faq " v-bind:key="item.id">{{item.option}}</p>
         </div>
-        <div class="aloneItem imgItem">
+        <div class="imgItem column">
           <img :src="$imgurl(footerDataL.qrcodeUrl)" />
         </div>
       </div>
@@ -212,5 +211,5 @@ export default {
 
 <style scoped lang="sass">
 @import "../global/css/global"
-@import "css/Navigation"
+@import "./css/Navigation"
 </style>

@@ -3,8 +3,8 @@
  */
 
 import {AUTH_TOKEN,AUTH_SESSION} from "@/store/mutation-type";
-import {login} from "../views/loginOrRegister/js/LoginOrRegister"
-import {ueserInfo} from "../views/global/js/global"
+import {login} from "@/views/loginOrRegister/js/LoginOrRegister"
+import {ueserInfo} from "@/views/global/js/global"
 
 export default {
     [AUTH_TOKEN]({commit},params){

@@ -1,4 +1,4 @@
-import {get,post} from "../../../config/config"
+import {get,post} from "@/config/config"
 import qs from 'qs'
 
 export const querySysConfig = params => get(

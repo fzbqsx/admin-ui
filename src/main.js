@@ -6,7 +6,10 @@ import store from './store'
 import bulma from "bulma";
 import iView from 'view-design';
 import 'view-design/dist/styles/iview.css'
+import moment from "moment";
 
+
+Vue.prototype.$moment = moment;
 Vue.config.productionTip = false
 Vue.use(bulma);
 Vue.use(iView);

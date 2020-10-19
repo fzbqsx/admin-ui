@@ -59,7 +59,7 @@
 
 <script>
 // import { login } from './js/LoginOrRegister'
-import {AUTH_TOKEN,AUTH_SESSION} from "../../store/mutation-type";
+import {AUTH_TOKEN,AUTH_SESSION} from "@/store/mutation-type";
 import {mapActions, } from "vuex";
 export default {
   name: "Login",
@@ -251,5 +251,5 @@ export default {
 
 <style scoped lang="sass">
 @import "../global/css/global"
-@import "css/Login"
+@import "./css/Login"
 </style>

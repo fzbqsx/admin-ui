@@ -1,5 +1,5 @@
 import Vue from "vue";
-import {ENV} from "../config/config";
+import {ENV} from "@/config/config";
 
 Vue.mixin({
   methods: {

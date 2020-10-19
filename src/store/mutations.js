@@ -2,7 +2,7 @@
     多个可以直接同步更新状态的方法  对象模块
  */
 import {AUTH_TOKEN,AUTH_SESSION} from "@/store/mutation-type";
-import {TOKEN_KEY,SESSION_KEY} from "../global"
+import {TOKEN_KEY,SESSION_KEY} from "@/global"
 
 export default {
     [AUTH_TOKEN](state,params) {
