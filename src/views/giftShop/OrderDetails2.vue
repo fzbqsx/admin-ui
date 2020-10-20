@@ -262,11 +262,16 @@
         <!--      </div>-->
 
       </div>
+      <button class="button submmitButton" @click="toCreateOrder">提交订单</button>
     </div>
+
   </div>
 </template>
 
 <script>
+import { queryDepot,queryExpress,queryPresent,queryProvince,queryCity,
+  queryDistrict,addShipper,querShipper,defaultShipper,deleteShipper,createOrder
+} from "./js/orderDetails";
 export default {
   name: "OrderDetails2",
   data() {
@@ -530,13 +535,12 @@ export default {
   },
   methods: {
     getShipper(){//获取发货人信息列表
-      console.log("===============$imgurl(params.row.present.cover)===================")
-      console.log(this.$imgurl('/aaa'))
       querShipper().then(res=>{
         if("ok"==res.err){
           this.shipperList=res.data;
+          const session = JSON.parse(sessionStorage.getItem('AUTH-SESSION'));
           for(var i=0;i<this.shipperList.length;i++){
-            if(this.shipperList[i].id == this.$session.shipperId){
+            if(this.shipperList[i].id == session.shipperId ){
               this.shipperId=this.shipperList[i].id
             }
           }
@@ -546,6 +550,13 @@ export default {
 
       })
     },
+    toCreateOrder(){
+      const params={biz:"purchase",body:{}}
+      createOrder({}).then(res=>{
+
+      })
+
+    },
     // getShipperId() {
     //
     //   //选择发货人下拉框
@@ -554,6 +565,9 @@ export default {
     //   //console.log(event.target.value);//获取选中的ID值
     // },
     selectDepot() {
+      console.log(this.depotList)
+      console.log("=============this.depotId=============")
+      console.log(this.depotId)
       //选择仓库
       this.getExpress(this.depotId);
     },
@@ -787,5 +801,5 @@ export default {
 </script>
 
 <style scoped lang="sass">
-
+@import "css/OrderDetails2"
 </style>

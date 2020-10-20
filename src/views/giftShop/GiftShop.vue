@@ -2,7 +2,11 @@
   <div class="bodyDiv2 bodyDiv1">
       <div class="giftShopDiv">
         <div class="BoxTitle">
-          <span>礼品商城</span><span>Mall</span>
+          <span class="Box_title1">礼品商城</span><span class="Box_title2">Mall</span>
+          <div class="shop_sort">
+            <span class="_sortspan" @click="getPresent(1)">综合排序</span><span class="_sortspan" @click="priceSort">价格排序</span>
+          </div>
+
         </div>
         <hr class="hr"/>
         <grid-layout v-if="this.giftshopDiv.presentList.length" :max="giftshopDiv.num" class="_shop_list">
@@ -27,7 +31,7 @@
 </template>
 
 <script>
-import {queryAllPresent} from "@/views/giftShop/js/giftShop";
+import {queryAllPresent,querySort} from "@/views/giftShop/js/giftShop";
 import GridLayout from "@/views/layOut/GridLayout";
 export default {
   name: "GiftShop",
@@ -56,6 +60,19 @@ export default {
         } else {
           this.$Message.error(res.message)
         }
+      })
+    },
+    priceSort() {//排序
+      querySort({
+        current: 1,
+        size: 30,
+        query: {
+          price: {
+            sort: 'desc'
+          }
+        }
+      }).then(res => {
+        this.giftshopDiv.presentList = res.data;
       })
     },
     toOrder(){
@@ -93,5 +110,5 @@ export default {
 
 <style scoped lang="sass">
 @import "css/giftShop"
-@import "../common/css/Home"
+//@import "../common/css/Home"
 </style>
