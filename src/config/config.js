@@ -3,7 +3,7 @@
  */
 import axios from 'axios'
 import store from '@/store/index'
-import {Message} from 'view-design';
+import {Message} from 'iview';
 import router from "@/router";
 
 const env = process.env.NOD_ENV

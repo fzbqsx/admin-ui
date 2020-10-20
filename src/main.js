@@ -4,8 +4,8 @@ import "@/mixin";
 import router from './router'
 import store from './store'
 import bulma from "bulma";
-import iView from 'view-design';
-import 'view-design/dist/styles/iview.css'
+import iView from 'iview';
+import 'iview/dist/styles/iview.css';
 import moment from "moment";
 
 

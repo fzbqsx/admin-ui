@@ -1,12 +1,12 @@
 <template>
   <div class="bodyDiv1 bodyDiv2 bodyDiv3">
-    <div class="loginDiv ">
+    <div class="loginDiv">
       <div  :style="{width: divWidth + 'px' }" class="imgDiv ">
         <router-link to="/Home" class="routerLink">
-          <img src="../../assets/login/组 5610.png"/>
+          <img src="@/assets/login/组 5610.png"/>
           返回首页
         </router-link>
-        <img src="../../assets/login/蒙版组 6.png" width="100%"/>
+        <img src="@/assets/login/蒙版组 6.png" width="100%"/>
       </div>
       <div :style="{width: divWidth + 'px' }" class="loginFromDiv ">
         <div class="loginInfoDiv">
@@ -17,23 +17,23 @@
             <div v-show="loginDivShow.userLoginDivShow">
               <p class="control has-icons-left">
                 <input v-model="loginInfo.loginUserName" class="input userLoginInput" type="text" placeholder="用户名">
-                <img class="icon is-left" style="height: 24px; width: 24px;margin: 8px" src="../../assets/login/路径 4304.png"/>
+                <img class="icon is-left" style="height: 24px; width: 24px; margin: 8px" src="@/assets/login/路径 4304.png"/>
               </p>
                 <form class="control has-icons-left">
                   <input v-model="loginInfo.loginPassword" class="input userLoginInput" type="password" placeholder="密码">
-                  <img class="icon is-left" style="height: 24px; width: 24px;margin: 8px" src="../../assets/login/组 5609.png"/>
+                  <img class="icon is-left" style="height: 24px; width: 24px;margin: 8px" src="@/assets/login/组 5609.png"/>
                 </form>
             </div>
 
             <!-- 验证码登录 -->
-            <div v-show="loginDivShow.phoneCodeDivShow" style="margin-top: 14px">
+            <div v-show="loginDivShow.phoneCodeDivShow" class="phoneCodeDiv">
               <p class="control has-icons-left">
                 <input v-model="loginInfo.loginPhone" class="input userLoginInput" type="text" placeholder="手机号码">
-                <img class="icon is-left" style="height: 24px; width: 24px;margin: 8px" src="../../assets/login/组 5607.png"/>
+                <img class="icon is-left" style="height: 24px; width: 24px;margin: 8px" src="@/assets/login/组 5607.png"/>
               </p>
               <p class="control has-icons-left">
                 <input v-model="loginInfo.code" class="input userLoginInput codeInput" type="text" placeholder="验证码">
-                <img class="icon is-left" style="height: 24px; width: 24px;margin: 8px" src="../../assets/login/路径 4301.png"/>
+                <img class="icon is-left" style="height: 24px; width: 24px;margin: 8px" src="@/assets/login/路径 4301.png"/>
                 <button @click="getCaptcha" class="button getCodeButton" :disabled="captchaButton.flag" ref="buttonbBackground" >{{captchaButton.content}}</button>
               </p>
             </div>
@@ -44,7 +44,7 @@
             </p>
             <div v-show="loginDivShow.longinBottonShow" class="buttonDiv">
               <button @click="toLogin" class="button loginInfoButton">登录</button>
-              <button  class="button loginInfoButton">注册</button>
+              <button @click="toRegister" class="button loginInfoButton">注册</button>
             </div>
             <div v-show="loginDivShow.updatePasswordBottonShow" class="buttonDiv">
               <button @click="toLoginButton" class="button loginInfoButton">登录</button>
@@ -128,7 +128,9 @@ export default {
       this.loginDivShow.updatePasswordBottonShow=false
     },
 
-
+    toRegister(){
+      this.$router.push({name:'register'})
+    },
     //获取验证码按钮
     getCaptcha() {
       // if(this.verifyPhone() === false){

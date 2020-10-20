@@ -1,18 +1,17 @@
-.orders_body
+.toOrders_body
   width: 100%
   display: flex
   justify-content: center
-  align-items: center
-  flex-wrap: wrap
   font-family: Source Han Sans CN
 
-.span1
-  font-size: 18px
-  color: #999999
-  line-height: 2
-
-.span1 .orders_info
-  color: #0033FF
+.ordersBodyDiv
+  width: 80%
+  .span1
+    font-size: 18px
+    color: #999999
+    line-height: 2
+    .orders_info
+      color: #0033FF
 
 .order_box
   display: flex
@@ -47,14 +46,12 @@
   font-size: 15px
   line-height: 2
 
-.toUseButton
-  width: 50%
-
 .toUse_button
   border-radius: 0
   font-size: 20px
   color: #0033FF
   border: 1px solid  #0033FF
+  transition: all .6s ease 0s
 
 .toUseButton :hover
   background-color: #0033FF
@@ -64,9 +61,11 @@
   display: flex
   justify-content: space-evenly
   align-items: center
+  transition: all .6s ease 0s
+  .toUse_button:hover
+    background-color: #0033FF
+    color: #FFFFFF
 
-.modalDiv .toUse_button:hover
-  background-color: #0033FF
-  color: #FFFFFF
+
 
 

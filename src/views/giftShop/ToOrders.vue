@@ -1,12 +1,11 @@
 <template>
-  <div class="orders_body">
-    <div class="orders_body">
-      <div style="width: 80%">
+  <div class="toOrders_body">
+      <div class="ordersBodyDiv">
         <span class="span1">发货方式</span><br/>
         <span class="span1">当您同时为多人发货时，我们为您提供了如下四种提交 <span class="orders_info">收货信息</span> 的方式</span>
         <div class="order_box">
           <div class="card">
-            <img src="../../assets/toOrders/页面-1.png"/>
+            <img src="@/assets/toOrders/页面-1.png"/>
             <span class="span2">
           自动发货【淘宝|拼多多|京东】
         </span><br/>
@@ -18,7 +17,7 @@
           一键智能发货，省时、省力、省心。
         </span>
             <div class="toUseButton">
-              <button class="button toUse_button"  @click="tuUse">去使用</button>
+              <button class="button toUse_button"  @click="toUse">去使用</button>
             </div>
           </div>
           <div class="card">
@@ -80,8 +79,6 @@
         </div>
         <div slot="footer" v-show="false"></div>
       </Modal>
-    </div>
-
   </div>
 </template>
 
@@ -94,7 +91,7 @@ export default {
     }
   },
   methods:{
-    tuUse(){
+    toUse(){
       if(this.messageShow){
         this.messageShow=false;
       }else{
