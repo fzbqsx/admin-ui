@@ -78,7 +78,7 @@
             <div class="alone-desc" type="date">{{$moment(item.createTime).format('YYYY-MM-DD HH:mm:ss')}}</div>
             <div class="alone-desc">{{ item.desc }}</div>
             <div class="button article_button" type="button" @click="toDetails(item,index)">了解更多
-              <duv class="triangle_icon"></duv>
+              <div class="triangle_icon"></div>
             </div>
           </div>
         </div>

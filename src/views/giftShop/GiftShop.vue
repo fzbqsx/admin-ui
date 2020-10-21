@@ -52,7 +52,7 @@ export default {
     getPresent(index) {//获取礼品列表
       queryAllPresent({
         current: index,
-        size: 8,
+        size: 12,
       }).then(res => {
         if ("ok" === res.err) {
           this.giftshopDiv.presentList = res.data;

@@ -3,7 +3,7 @@
  */
 
 import {AUTH_TOKEN,AUTH_SESSION} from "@/store/mutation-type";
-import {login} from "@/views/loginOrRegister/js/LoginOrRegister"
+import {login} from "@/views/loginOrRegister/js/login"
 import {ueserInfo} from "@/views/global/js/global"
 
 export default {

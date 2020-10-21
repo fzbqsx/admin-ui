@@ -10,8 +10,8 @@
       </div>
       <div :style="{width: divWidth + 'px' }" class="loginFromDiv ">
         <div class="loginInfoDiv">
-          <p>欢迎来到发货宝</p>
-          <p>我们提供礼品采购、真实发货一站式快递服务。</p>
+          <p class="loginTitle1">欢迎来到发货宝</p>
+          <p class="loginTitle2">我们提供礼品采购、真实发货一站式快递服务。</p>
           <div class="loginInfo">
             <!-- 用户名登录 -->
             <div v-show="loginDivShow.userLoginDivShow">
@@ -213,6 +213,7 @@ export default {
 
       this.login(params).then( res => {
         if(200 === res.status && "ok" === res.data.err){
+          this.userInfo()
           const redirect = this.$route.query.redirect;
           if(redirect){
             this.$router.push({ path: redirect })
@@ -220,7 +221,6 @@ export default {
             this.$router.push({ name: "home" })
           }
           this.$Message.success("登录成功")
-          this.userInfo()
         }else{
           this.$Message.error(res.data.message)
         }

@@ -79,7 +79,7 @@
 </template>
 
 <script>
-import { logout } from '../loginOrRegister/js/LoginOrRegister'
+import { logout } from '../loginOrRegister/js/login'
 import {querySysConfig} from "./js/Navigation";
 export default {
   name: "Navigation",

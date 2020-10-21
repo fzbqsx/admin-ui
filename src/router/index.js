@@ -63,7 +63,7 @@ const routes = [
           {
             path: "/PersonalHome",
             name: "personalHome",
-            component: resolve => require(['@/views/personal/PersonalHome.vue'],resolve),
+            component: resolve => require(['@/views/personal/PersonalHome.vue']),
             meta:{role:true,title:'个人主页'},
           },
           {
