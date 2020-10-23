@@ -3,11 +3,11 @@ import VueRouter from 'vue-router'
 
 Vue.use(VueRouter)
 
-const originalPush = VueRouter.prototype.push
-VueRouter.prototype.push = function push(location, onResolve, onReject) {
-  if (onResolve || onReject) return originalPush.call(this, location, onResolve, onReject)
-  return originalPush.call(this, location).catch(err => err)
-}
+// const originalPush = VueRouter.prototype.push
+// VueRouter.prototype.push = function push(location, onResolve, onReject) {
+//   if (onResolve || onReject) return originalPush.call(this, location, onResolve, onReject)
+//   return originalPush.call(this, location).catch(err => err)
+// }
 
 const routes = [
   {
@@ -58,12 +58,12 @@ const routes = [
         name: "personal",
         component: resolve => require(['@/views/personal/Personal.vue'],resolve),
         meta:{role:true,title:'个人中心'},
-        redirect:'PersonalHome',
+        redirect:'personalHome',
         children:[
           {
             path: "/PersonalHome",
             name: "personalHome",
-            component: resolve => require(['@/views/personal/PersonalHome.vue']),
+            component: resolve => require(['@/views/personal/PersonalHome.vue'],resolve),
             meta:{role:true,title:'个人主页'},
           },
           {

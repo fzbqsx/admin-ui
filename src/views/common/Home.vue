@@ -1,5 +1,5 @@
 <template>
-  <div class="homeDiv">
+  <div>
     <div class="recommendPage" @mouseenter="enter" @mouseleave="leave">
       <swiper :options="swiperDiv.swiperOption" ref="mySwiper" v-if="swiperDiv.slideList.length>1">
         <swiper-slide class="swiperSlideDiv" v-for="item in swiperDiv.slideList" v-bind:key="item.id">
@@ -10,112 +10,111 @@
         <div v-show="swiperDiv.swiperButton" class="swiper-button-next" slot="button-next"></div>
       </swiper>
     </div>
-  <div class="homeBodyDiv ">
-    <div class="sloganDiv columns">
-      <div class="aloneSlogan column">
-        <img src="@/assets/home/a966.png" />
-        <div class="describe">
-          <p>正品保障</p>
-          <p>正品保障，选购放心</p>
-        </div>
-      </div>
-      <div class="aloneSlogan column">
-        <div class="img"><img src="@/assets/home/a967.png" /></div>
-        <div class="describe">
-          <p>天天低价</p>
-          <p>天天低价，畅选无忧</p>
-        </div>
-      </div>
-      <div class="aloneSlogan column">
-        <div class="img"><img src="@/assets/home/a968.png" /></div>
-        <div class="describe">
-          <p>多仓直发</p>
-          <p>多仓直发，极速配送</p>
-        </div>
-      </div>
-      <div class="aloneSlogan column">
-        <div class="img"><img src="@/assets/home/a969.png" /></div>
-        <div class="describe">
-          <p>品类齐全</p>
-          <p>品类齐全，轻松选礼</p>
-        </div>
-      </div>
-    </div>
-    <div class="giftShopDiv">
-      <div class="BoxTitle">
-        <span>礼品商城</span><span>Mall</span><span @click="toGiftshop">MORE+</span>
-      </div>
-      <hr class="hr"/>
-      <grid-layout v-if="this.giftshopDiv.presentList.length" :max="giftshopDiv.num">
-        <div class="alone_shop" v-for="(item,index) in this.giftshopDiv.presentList" :key="index">
-          <div class="shop_img">
-            <img :src="$imgurl(item.cover)" alt>
+    <div class="homeBodyDiv ">
+      <div class="sloganDiv columns">
+        <div class="aloneSlogan column">
+          <img src="@/assets/home/a966.png" />
+          <div class="describe">
+            <p>正品保障</p>
+            <p>正品保障，选购放心</p>
           </div>
-          <div class="shop_info">
-            <span class="shop_price">￥{{ item.price }}</span><br/>
-            <div class="_title">
-              {{ item.name }}
+        </div>
+        <div class="aloneSlogan column">
+          <div class="img"><img src="@/assets/home/a967.png" /></div>
+          <div class="describe">
+            <p>天天低价</p>
+            <p>天天低价，畅选无忧</p>
+          </div>
+        </div>
+        <div class="aloneSlogan column">
+          <div class="img"><img src="@/assets/home/a968.png" /></div>
+          <div class="describe">
+            <p>多仓直发</p>
+            <p>多仓直发，极速配送</p>
+          </div>
+        </div>
+        <div class="aloneSlogan column">
+          <div class="img"><img src="@/assets/home/a969.png" /></div>
+          <div class="describe">
+            <p>品类齐全</p>
+            <p>品类齐全，轻松选礼</p>
+          </div>
+        </div>
+      </div>
+      <div class="giftShopDiv">
+        <div class="BoxTitle">
+          <span>礼品商城</span><span>Mall</span><span @click="toGiftshop">MORE+</span>
+        </div>
+        <hr class="hr"/>
+        <grid-layout v-if="this.giftshopDiv.presentList.length" :max="giftshopDiv.num">
+          <div class="alone_shop" v-for="(item,index) in this.giftshopDiv.presentList" :key="index">
+            <div class="shop_img">
+              <img :src="$imgurl(item.cover)" alt>
             </div>
-            <span class="_describe">重量{{ item.weight }}克/件</span>
-            <span class="_toOrders" @click="toOrder">去下单 > </span>
-          </div>
-        </div>
-      </grid-layout>
-    </div>
-
-    <div class="home_activeDiv">
-      <div class="BoxTitle">
-        <span>热门资讯</span><span>Hot info</span><span @click="toArticle">MORE+</span>
-      </div>
-      <hr class="hr"/>
-      <div class="article-Body " v-if="this.activeDiv.articleData.length">
-        <div class="columns" v-for="(item,index) in this.activeDiv.articleData" :key="index" >
-          <div class="alone-img column is-one-fifth">
-            <img :src= "$imgurl(item.cover)" alt>
-          </div>
-          <div class="column">
-            <div class="alone-title">{{ item.title }}</div>
-            <div class="alone-desc" type="date">{{$moment(item.createTime).format('YYYY-MM-DD HH:mm:ss')}}</div>
-            <div class="alone-desc">{{ item.desc }}</div>
-            <div class="button article_button" type="button" @click="toDetails(item,index)">了解更多
-              <div class="triangle_icon"></div>
+            <div class="shop_info">
+              <span class="shop_price">￥{{ item.price }}</span><br/>
+              <div class="_title">
+                {{ item.name }}
+              </div>
+              <span class="_describe">重量{{ item.weight }}克/件</span>
+              <span class="_toOrders" @click="toOrder">去下单 > </span>
             </div>
           </div>
-        </div>
+        </grid-layout>
       </div>
-    </div>
-    <div class="labelBox columns">
-      <div class="aloneLabel column">
-        <div class="aloneLabelImg">
-          <img src="../../assets/home/组 5611.png" alt/>
-          <span>降成本</span>
-        </div>
-        <span class="spana">帮你降低50%发货成本，省去你能想到的所有发货成本</span>
-      </div>
-      <div class="aloneLabel column">
-        <div class="aloneLabelImg">
-          <img src="../../assets/home/组 5612.png" alt/>
-          <span>去库存</span>
-        </div>
-        <span class="spana">回收库存/去礼品库存/去自有产品库存</span>
-      </div>
-      <div class="aloneLabel column">
-        <div class="aloneLabelImg">
-          <img src="../../assets/home/组 5613.png" alt/>
-          <span>保品质</span>
-        </div>
 
-        <span class="spana">同样价格，给你更好的品质；同样品质，给你最低的价格</span>
-      </div>
-      <div class="aloneLabel column">
-        <div class="aloneLabelImg">
-          <img src="../../assets/home/组 5613.png" alt/>
-          <span>多选择</span>
+      <div class="home_activeDiv">
+        <div class="BoxTitle">
+          <span>热门资讯</span><span>Hot info</span><span @click="toArticle">MORE+</span>
         </div>
-        <span class="spana">非配重礼品/可配重礼品/高端礼品等</span>
+        <hr class="hr"/>
+        <div class="article-Body " v-if="this.activeDiv.articleData.length">
+          <div class="columns" v-for="(item,index) in this.activeDiv.articleData" :key="index" >
+            <div class="alone-img column is-one-fifth">
+              <img :src= "$imgurl(item.cover)" alt>
+            </div>
+            <div class="column">
+              <div class="alone-title">{{ item.title }}</div>
+              <div class="alone-desc" type="date">{{$moment(item.createTime).format('YYYY-MM-DD HH:mm:ss')}}</div>
+              <div class="alone-desc">{{ item.desc }}</div>
+              <div class="button article_button" type="button" @click="toDetails(item,index)">了解更多
+                <div class="triangle_icon"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="labelBox columns">
+        <div class="aloneLabel column">
+          <div class="aloneLabelImg">
+            <img src="../../assets/home/组 5611.png" alt/>
+            <span>降成本</span>
+          </div>
+          <span class="spana">帮你降低50%发货成本，省去你能想到的所有发货成本</span>
+        </div>
+        <div class="aloneLabel column">
+          <div class="aloneLabelImg">
+            <img src="../../assets/home/组 5612.png" alt/>
+            <span>去库存</span>
+          </div>
+          <span class="spana">回收库存/去礼品库存/去自有产品库存</span>
+        </div>
+        <div class="aloneLabel column">
+          <div class="aloneLabelImg">
+            <img src="../../assets/home/组 5613.png" alt/>
+            <span>保品质</span>
+          </div>
+          <span class="spana">同样价格，给你更好的品质；同样品质，给你最低的价格</span>
+        </div>
+        <div class="aloneLabel column">
+          <div class="aloneLabelImg">
+            <img src="../../assets/home/组 5613.png" alt/>
+            <span>多选择</span>
+          </div>
+          <span class="spana">非配重礼品/可配重礼品/高端礼品等</span>
+        </div>
       </div>
     </div>
-  </div>
   </div>
 </template>
 

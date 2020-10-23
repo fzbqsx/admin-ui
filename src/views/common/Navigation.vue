@@ -57,7 +57,8 @@
       <div class="footer_box columns">
         <div class="aloneItem column">
           <p>友情链接</p>
-          <p class="qsp" v-for="item in footerDataL.faq " v-bind:key="item.id">{{item.option}}</p>
+          <img v-for="item in footerDataL.blogrollimg" v-bind:key="item.id" :src="$imgurl(item.option)"/>
+          <p class="qsp" v-for="item in footerDataL.blogrollp " v-bind:key="item.id">{{item.option}}</p>
         </div>
         <div class="aloneItem column" >
           <p>常见问题</p>
@@ -65,7 +66,7 @@
         </div>
         <div class="aloneItem column">
           <p>技术支持</p>
-          <p class="qsp" v-for="item in footerDataL.faq " v-bind:key="item.id">{{item.option}}</p>
+          <p class="qsp" v-for="item in footerDataL.technicalsupport " v-bind:key="item.id">{{item.option}}</p>
         </div>
         <div class="imgItem column">
           <img :src="$imgurl(footerDataL.qrcodeUrl)" />
@@ -129,44 +130,44 @@ export default {
 
     getSysConfig(){//获取底部系统参数
       querySysConfig(
-              {sysName:'qrcode',
-                query: {
-                  createTime: {
-                    sort: 'asc'
-                  }
-                }
-              }).then(res=>{
+      {sysName:'qrcode',
+        query: {
+          createTime: {
+            sort: 'asc'
+          }
+        }
+      }).then(res=>{
         if("ok"===res.err){
           this.footerDataL.qrcodeUrl=res.data[0].option;
         }
       });
       querySysConfig(
-              {sysName:'copyright',
-                query: {
-                  createTime: {
-                    sort: 'asc'
-                  }
-                }
-              }).then(res=>{
+      {sysName:'copyright',
+        query: {
+          createTime: {
+            sort: 'asc'
+          }
+        }
+      }).then(res=>{
         if("ok"===res.err){
           this.footerDataL.copyright=res.data[0].option;
         }
       });
       querySysConfig(
-              {sysName:'blogroll',
-                query: {
-                  createTime: {
-                    sort: 'asc'
-                  }
-                }
-              }).then(res=>{
+      {sysName:'blogroll',
+        query: {
+          createTime: {
+            sort: 'asc'
+          }
+        }
+      }).then(res=>{
         if("ok"===res.err){
           const blogroll=res.data;
           var blogrolla = [];
           var blogrollb = [];
           blogroll.forEach(function (item) {
             if(0===item.type){
-              blogrolla.push(item)
+              blogrolla.push(item);
             }else{
               blogrollb.push(item);
             }
@@ -177,25 +178,25 @@ export default {
         }
       });
       querySysConfig(
-              {sysName:'faq',
-                query: {
-                  createTime: {
-                    sort: 'asc'
-                  }
-                }
-              }).then(res=>{
+      {sysName:'faq',
+        query: {
+          createTime: {
+            sort: 'asc'
+          }
+        }
+      }).then(res=>{
         if("ok"===res.err){
           this.footerDataL.faq=res.data;
         }
       });
       querySysConfig(
-              {sysName:'technicalsupport',
-                query: {
-                  createTime: {
-                    sort: 'asc'
-                  }
-                }
-              }).then(res=>{
+      {sysName:'technicalsupport',
+        query: {
+          createTime: {
+            sort: 'asc'
+          }
+        }
+      }).then(res=>{
         if("ok"===res.err){
           this.footerDataL.technicalsupport=res.data;
         }

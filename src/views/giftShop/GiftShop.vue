@@ -1,5 +1,5 @@
 <template>
-  <div class="bodyDiv2 bodyDiv1">
+  <div class="bodyDiv2">
       <div class="giftShopDiv">
         <div class="BoxTitle">
           <span class="Box_title1">礼品商城</span><span class="Box_title2">Mall</span>
