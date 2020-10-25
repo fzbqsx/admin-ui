@@ -42,13 +42,13 @@
               <span @click="cutLoginType">{{loginInfo.cutLoginTypeInfo}}</span>
               <span @click="updatePassword">忘记密码？</span>
             </p>
-            <div v-show="loginDivShow.longinBottonShow" class="buttonDiv">
-              <button @click="toLogin" class="button loginInfoButton">登录</button>
-              <button @click="toRegister" class="button loginInfoButton">注册</button>
+            <div v-show="loginDivShow.longinBottonShow" class="buttonsDiv">
+              <button @click="toLogin" class="button _button">登录</button>
+              <button @click="toRegister" class="button _button">注册</button>
             </div>
-            <div v-show="loginDivShow.updatePasswordBottonShow" class="buttonDiv">
-              <button @click="toLoginButton" class="button loginInfoButton">登录</button>
-              <button class="button loginInfoButton">确认重置</button>
+            <div v-show="loginDivShow.updatePasswordBottonShow" class="buttonsDiv">
+              <button @click="toLoginButton" class="button _button">登录</button>
+              <button class="button _button">确认重置</button>
             </div>
           </div>
         </div>
@@ -253,5 +253,5 @@ export default {
 
 <style scoped lang="sass">
 @import "../global/css/global"
-@import "./css/Login"
+@import "css/login"
 </style>

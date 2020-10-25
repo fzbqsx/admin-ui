@@ -10,7 +10,7 @@
         <div v-show="swiperDiv.swiperButton" class="swiper-button-next" slot="button-next"></div>
       </swiper>
     </div>
-    <div class="homeBodyDiv ">
+    <div class="homeBodyDiv">
       <div class="sloganDiv columns">
         <div class="aloneSlogan column">
           <img src="@/assets/home/a966.png" />
@@ -43,7 +43,7 @@
       </div>
       <div class="giftShopDiv">
         <div class="BoxTitle">
-          <span>礼品商城</span><span>Mall</span><span @click="toGiftshop">MORE+</span>
+          <span class="Box_title1">礼品商城</span><span class="Box_title2">Mall</span><span @click="toGiftshop">MORE+</span>
         </div>
         <hr class="hr"/>
         <grid-layout v-if="this.giftshopDiv.presentList.length" :max="giftshopDiv.num">
@@ -65,7 +65,7 @@
 
       <div class="home_activeDiv">
         <div class="BoxTitle">
-          <span>热门资讯</span><span>Hot info</span><span @click="toArticle">MORE+</span>
+          <span class="Box_title1">热门资讯</span><span class="Box_title2">Hot info</span><span @click="toArticle">MORE+</span>
         </div>
         <hr class="hr"/>
         <div class="article-Body " v-if="this.activeDiv.articleData.length">
@@ -120,7 +120,7 @@
 
 <script>
 import GridLayout from "@/views/layOut/GridLayout";
-import {querySysConfig} from "./js/Navigation";
+import {querySysConfig} from "./js/navigation";
 import {queryAllPresent} from "@/views/giftShop/js/giftShop";
 import {queryArticle} from "@/views/article/js/article";
 import { swiper, swiperSlide } from "vue-awesome-swiper";
@@ -267,7 +267,7 @@ export default {
 </script>
 <style scoped lang="sass">
 @import "../global/css/global"
-@import "./css/Home"
+@import "css/home"
 @import "../giftShop/css/giftShop"
 @import "../article/css/article"
 </style>

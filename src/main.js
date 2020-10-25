@@ -7,12 +7,14 @@ import bulma from "bulma";
 import iView from 'iview';
 import 'iview/dist/styles/iview.css';
 import moment from "moment";
+import vueXlsxTable from 'vue-xlsx-table';
 
 
 Vue.prototype.$moment = moment;
 Vue.config.productionTip = false
 Vue.use(bulma);
 Vue.use(iView);
+Vue.use(vueXlsxTable, {rABS: false});
 
 //全局信息提示
 Vue.prototype.$Message.config({

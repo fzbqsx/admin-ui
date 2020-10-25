@@ -109,6 +109,7 @@ export default {
 </script>
 
 <style scoped lang="sass">
+@import "../global/css/global"
 @import "css/giftShop"
-//@import "../common/css/Home"
+@import "../article/css/article"
 </style>

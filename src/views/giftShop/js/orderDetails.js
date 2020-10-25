@@ -38,7 +38,7 @@ export const addShipper = (params, body) => post(
     }
 )
 
-export const querShipper = params => get(
+export const queryShipper = params => get(
     '/shipper/',
     params
 )

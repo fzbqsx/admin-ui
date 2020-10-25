@@ -81,7 +81,8 @@
 
 <script>
 import { logout } from '../loginOrRegister/js/login'
-import {querySysConfig} from "./js/Navigation";
+import {querySysConfig} from "./js/navigation";
+import state from '@/store/index'
 export default {
   name: "Navigation",
   data(){
@@ -119,7 +120,9 @@ export default {
       logout({}).then(res=>{
         if("ok"===res.data.err){
           localStorage.removeItem('AUTH-TOKEN')
-          sessionStorage.removeItem('AUTH-SESSION')
+          state.state.token="";
+          state.state.session={};
+          // sessionStorage.removeItem('AUTH-SESSION')
           this.$Message.success(res.data.message);
           this.$router.push({ name: "login" });
         }else{
@@ -212,5 +215,5 @@ export default {
 
 <style scoped lang="sass">
 @import "../global/css/global"
-@import "./css/Navigation"
+@import "css/navigation"
 </style>

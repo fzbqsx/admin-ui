@@ -46,9 +46,9 @@
                 <img class="icon is-left" style="height: 24px; width: 24px;margin: 8px" src="@/assets/login/邀请码.png"/>
               </p>
             </div>
-            <div class="buttonDiv">
-              <button @click="toLogin" class="button loginInfoButton">登录</button>
-              <button @click="OkRegister" class="button loginInfoButton">确认注册</button>
+            <div class="buttonsDiv">
+              <button @click="toLogin" class="button _button">登录</button>
+              <button @click="OkRegister" class="button _button">确认注册</button>
             </div>
           </div>
         </div>
@@ -167,5 +167,5 @@ export default {
 
 <style scoped lang="sass">
 @import "../global/css/global"
-@import "./css/Login"
+@import "css/login"
 </style>

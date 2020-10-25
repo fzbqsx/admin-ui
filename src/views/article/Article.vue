@@ -2,7 +2,7 @@
   <div class="bodyDiv2">
     <div class="activeBody">
       <div class="BoxTitle">
-        <span>热门资讯</span><span>Hot info</span>
+        <span class="Box_title1">热门资讯</span><span class="Box_title2">Hot info</span>
       </div>
       <hr class="hr"/>
       <div class="article-Body " v-if="this.activeDiv.articleData.length">
@@ -42,6 +42,7 @@ export default {
         current:index,
         size:5,
         query: {
+          // id:28
           createTime: {
             sort: 'desc'
           }
@@ -55,10 +56,10 @@ export default {
         }
       })
     },
-    toDetails(index){
+    toDetails(item){
       this.$router.push({name:"articleDetails",
-        query: {
-          index:index,
+        params: {
+          item:item,
         },
       })
     },
@@ -73,5 +74,6 @@ export default {
 </script>
 
 <style scoped lang="sass">
+@import "../global/css/global"
 @import "./css/article"
 </style>

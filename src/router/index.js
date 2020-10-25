@@ -1,7 +1,8 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-
+import state from '@/store/index'
 Vue.use(VueRouter)
+
 
 // const originalPush = VueRouter.prototype.push
 // VueRouter.prototype.push = function push(location, onResolve, onReject) {
@@ -128,7 +129,7 @@ const router = new VueRouter({
 router.beforeEach((to, from, next) => {
   if(to.meta.role){
     const token =localStorage.getItem('AUTH-TOKEN');
-    const session = sessionStorage.getItem('AUTH-SESSION');
+    const session = state.state.session;
     if(token && session){
       next();
     }else{
