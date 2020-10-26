@@ -1,17 +1,21 @@
 <template>
-  <div>
-    <h1>个人中心</h1>
-    <div>
-      <router-link class="routerLink" style="font-size: 18px" to="/PersonalHome" >个人主页</router-link>
-      <router-link class="routerLink" style="font-size: 20px;" to="/ToOrders">礼品发货  <span style="color: #0033FF"> > </span></router-link>
-      <router-link class="routerLink" to="/FinancialDetails" >资金明细</router-link>
-      <router-link class="routerLink" to="/PriceList" >价格列表</router-link>
-      <router-link class="routerLink" to="/OrderManage" >订单管理</router-link>
-      <router-link class="routerLink" to="/Popularize" >推广中心</router-link>
-      <router-link class="routerLink" to="/Deposit" >申请提现</router-link>
-    </div>
-    <div>
-      <router-view style="height: auto" />
+  <div class="bodyDiv1 bodyDiv2">
+    <div class="personalBox columns">
+      <div class="routerLinkDiv column">
+        <router-link to="/PersonalHome">个人主页</router-link>
+        <hr/>
+        <router-link class="toOrders" to="/ToOrders"><img src="@/assets/personal/路径 416.png"/>礼品发货<span> > </span></router-link>
+        <hr/>
+        <router-link to="/FinancialDetails">资金明细</router-link>
+        <router-link to="/PriceList">价格列表</router-link>
+        <router-link to="/OrderManage">订单管理</router-link>
+        <router-link to="/Popularize">推广中心</router-link>
+        <router-link to="/Deposit">申请提现</router-link>
+        <router-link style="display:none" to="/OrderDetails"></router-link>
+      </div>
+      <div class="contentBox column">
+        <router-view style="height: auto" />
+      </div>
     </div>
   </div>
 </template>
@@ -22,6 +26,7 @@ name: "Personal"
 }
 </script>
 
-<style scoped>
-
+<style scoped lang="sass">
+@import "../global/css/global"
+@import './css/personal.sass'
 </style>

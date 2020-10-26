@@ -56,7 +56,19 @@ export const queryAllPresent = params => get(
     params
 )
 
-export const createOrder = params => post(
+export const createOrder = (params, body) => post(
     '/unified-order',
-    params
+    body,
+    {
+        data: body,
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }
+)
+
+export const alipay = params => post(
+    `/fm-pay?${qs.stringify(params)}`,
+    null
+
 )

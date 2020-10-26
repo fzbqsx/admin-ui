@@ -39,7 +39,7 @@
       <p class="prompt">5.自定义包裹重量 (单位kg)</p>
       <Row>
         <Col span="12">
-          <InputNumber class="InputNumber" size="large"  :min="0" :max="99999" :step="0.5" :precision="2" placeholder="请输入包裹重量"></InputNumber>
+          <InputNumber class="InputNumber" v-model="weightInput" :value="0" size="large"  :min="0" :max="99999" :step="0.5" :precision="2" placeholder="请输入包裹重量"></InputNumber>
         </Col>
       </Row>
       <p class="prompt">6.设置收货地址</p>
@@ -60,10 +60,10 @@
       <div class="buttonsDiv upload_download">
         <vue-xlsx-table class="uploadFilesButton button _button" @on-select-file="uploadFiles">批量上传</vue-xlsx-table>
 <!--        <button class="button _button" >批量上传</button>-->
-        <button class="button _button" >检查收货地址</button>
+        <button class="button _button" @click="examine">检查收货地址</button>
       </div>
       <Table   ref="selection" :columns="tableTitle" :data="tableList"></Table>
-      <p class="dynamicAmount"> 总计金额：(0+0)*0=0 </p>
+      <p class="dynamicAmount"> 总计金额：({{dynamicAmountCalculation.money}}+{{expressInfo.expressPrice}})*{{dynamicAmountCalculation.num}}={{dynamicAmountCalculation.totalMoney}} </p>
       <div class="buttonsDiv upload_download">
         <button class="button _button" @click="openMadal(5)">确认提交</button>
       </div>
@@ -115,7 +115,7 @@
       </div>
       <div v-if="modelIsShow.modalDivShow===5">
         <div class="buttonsDiv">
-          <button class="button _button" >支付宝</button>
+          <button class="button _button" @click="toAlipay">支付宝</button>
           <button class="button _button" >余额</button>
         </div>
       </div>
@@ -128,8 +128,8 @@
 </template>
 
 <script>
-import { queryDepot,queryExpress,queryPresent,queryProvince,queryCity,
-  queryDistrict,addShipper,queryShipper,defaultShipper,deleteShipper,createOrder
+import { queryDepot,queryExpress,queryPresent,queryProvince,queryCity,queryDistrict,
+  addShipper,queryShipper,defaultShipper,deleteShipper,createOrder,alipay
 } from "./js/orderDetails";
 export default {
   name: "OrderDetails2",
@@ -139,9 +139,12 @@ export default {
       shipperInfo:{shipperList:[],shipperId:"",shipperName:""},
       addShipperInfo:{name:"",phone:"",regionId:"",detail:"",provinceId:"",cityId:"",districtId:"",provinceList:[],cityList:[],districtList:[]},
       depotInfo:{depotList:[],depotId:""},
-      expressInfo:{expressList:[],expressId:""},
+      expressInfo:{expressList:[],expressId:"",expressPrice:0.00},
       presentInfo:{imgs:true,tables:false},
+      weightInput:0,
+      dynamicAmountCalculation:{money:0.00,num:0,totalMoney:0.00},
       presentTableOperation:"",
+      createOrderResp:[],
       addresstextarea:"",
       tableList:[],
       presentTableList:[],
@@ -380,7 +383,89 @@ export default {
         this.addresstextarea=builder.join("\n");
       }
     },
+    examine(){//检查收货地址
+      this.tableList=[];
+      const addressStr = this.addresstextarea.split(/\r?\n/);
+      for(let i=0;i<addressStr.length; i++){
+        const aloneAddress = addressStr[i].split(",");
+        if(aloneAddress.length<9){
+          this.$Message.error("第"+(i+1)+"条数据不正常，请检查后重新上传")
+          return
+        }else {
+          for(let j=0; j<aloneAddress.length; j++){
+            if(aloneAddress[j] === "" || aloneAddress[j] === null || aloneAddress[j] === undefined){
+              this.$Message.error("第"+(i+1)+"条数据不正常，请检查后重新上传")
+              return
+            }
+          }
+        }
+        const address = this.analysisAddress(aloneAddress[2])
+        const addressList = {
+          tradeNo:aloneAddress[0],
+          productName:this.presentTableList[0].present.name,
+          money: parseFloat(this.presentTableList[0].present.price).toFixed(2),
+          payTime:aloneAddress[6],
+          remark:aloneAddress[7],
+          merchantRemark:aloneAddress[8],
+          province:address.province,
+          city:address.city,
+          district:address.district,
+          detail:address.detail,
+          name:aloneAddress[1],
+          phone:aloneAddress[3],
+        };
+        this.tableList.push(addressList);
+      }
+      if(this.expressInfo.expressId){
+        for( var k=0;k<this.expressInfo.expressList.length; k++){
+          if(this.expressInfo.expressId===this.expressInfo.expressList[k].express.id){
+            this.expressInfo.expressPrice=this.expressInfo.expressList[k].price;
+          }
+        }
+      }
+      this.dynamicAmountCalculation.money=this.presentTableList[0].present.price;
+      this.dynamicAmountCalculation.num=this.tableList.length;
+      this.dynamicAmountCalculation.totalMoney=((this.dynamicAmountCalculation.money+this.expressInfo.expressPrice)*this.dynamicAmountCalculation.num).toFixed(2);
+    },
 
+    createOrder(){//创建订单
+      const params = {
+        biz:"purchase",
+        body:{
+          amount:this.dynamicAmountCalculation.totalMoney,
+          channel:1,
+          shipperId:this.shipperInfo.shipperId, //发货人ID
+          depotId:this.depotInfo.depotId,     //仓库ID
+          expressId:this.expressInfo.expressId,  //快递ID
+          presentInfo:this.presentTableList[0].present,  //商品信息（包括商品ID、名称，单价）
+          presentWeight:this.weightInput,       //自定义包裹重量
+          receivers:this.tableList        //收货人信息（包括收货人姓名，电话，省、市、区收货地址）
+        }
+      }
+      console.log(params)
+      createOrder({},params).then(res=>{
+        if("ok" === res.err){
+          this.$Message.success("订单创建成功，请前往付款！");
+          this.createOrderResp=res.data.order;
+          this.modelIsShow.divShow=true;
+        }else {
+          this.$Message.error("订单创建失败！"+res.message);
+        }
+      })
+    },
+    toAlipay(){
+      const tradeNo = this.createOrderResp.tradeNo
+      if(tradeNo) {
+        alipay({tradeNo: tradeNo}).then(res => {
+          if(200===res.code){
+            window.open(res.data.payUrl)
+            this.Close();
+          }else{
+            this.$Message.error("打开支付页面异常，请重试！")
+          }
+        })
+      }
+    },
 
     selectShopper(){
       if(1 === this.modelIsShow.modalDivShow && this.shipperInfo.shipperId === this.$session.shipperId){
@@ -493,7 +578,29 @@ export default {
         this.getPresent();
         // this.modelIsShow.footerShow=false;
       }else if(5===num){
+        this.modelIsShow.divShow=false;
+        if(!this.shipperInfo.shipperId){
+          this.$Message.error("请选择发货人！")
+          return;
+        }
+        if(!this.depotInfo.depotId){
+          this.$Message.error("请选择仓库！")
+          return;
+        }
+        if(!this.expressInfo.expressId){
+          this.$Message.error("请选择快递！")
+          return;
+        }
+        if(this.presentTableList.length<1){
+          this.$Message.error("请选择礼品！")
+          return;
+        }
+        if(this.tableList.length<1){
+          this.$Message.error("请添加收货地址！")
+          return;
+        }
         this.modelIsShow.title="请选择支付方式";
+        this.createOrder()
         // this.modelIsShow.footerShow=false;
       }
 

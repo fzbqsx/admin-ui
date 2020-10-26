@@ -43,6 +43,12 @@ const routes = [
         meta: {role:true,title: '下单内容页2'}
       },
       {
+        path: "/payResult",
+        name: "payResult",
+        component:resolve => require(['@/views/common/payResult.vue'],resolve),
+        meta: {title: '支付结果'},
+      },
+      {
         path: "/Article",
         name: "article",
         component: resolve => require(['@/views/article/Article.vue'],resolve),
@@ -126,22 +132,22 @@ const router = new VueRouter({
   routes
 })
 
-router.beforeEach((to, from, next) => {
-  if(to.meta.role){
-    const token =localStorage.getItem('AUTH-TOKEN');
-    const session = state.state.session;
-    if(token && session){
-      next();
-    }else{
-      next({
-        path:'/Login',
-        query:{redirect:to.fullPath}    //把要跳转的页面菜蔬传过去
-      })
-    }
-  }else{
-    next();
-  }
-})
+// router.beforeEach((to, from, next) => {
+//   if(to.meta.role){
+//     const token =localStorage.getItem('AUTH-TOKEN');
+//     const session = state.state.session;
+//     if(token && session){
+//       next();
+//     }else{
+//       next({
+//         path:'/Login',
+//         query:{redirect:to.fullPath}    //把要跳转的页面菜蔬传过去
+//       })
+//     }
+//   }else{
+//     next();
+//   }
+// })
 
 export default router
 

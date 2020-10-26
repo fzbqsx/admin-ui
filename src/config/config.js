@@ -11,7 +11,7 @@ export const ENV = {
     env,
     lang: 'zh-zn',
     baseURL: env === 'production'
-        ? `${window.location.protocol}//${window.location.hostname}/boneco/api` : 'http://47.114.6.125/boneco/api'
+        ? `${window.location.protocol}//${window.location.hostname}/boneco/api` : 'http://tzf43d.natappfree.cc/boneco/api'
 }
 axios.defaults.baseURL = ENV.baseURL
 
