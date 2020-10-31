@@ -1,30 +1,29 @@
 import Vue from 'vue'
 import App from './App.vue'
-import "@/mixin";
-import router from './router'
+import {initRouter} from './router'
+import './theme/index.less'
+import Antd from 'ant-design-vue'
+import Viser from 'viser-vue'
+import '@/mock'
 import store from './store'
-import bulma from "bulma";
-import iView from 'iview';
-import 'iview/dist/styles/iview.css';
-import moment from "moment";
-import vueXlsxTable from 'vue-xlsx-table';
+import 'animate.css/source/animate.css'
+import Plugins from '@/plugins'
+import {initI18n} from '@/utils/i18n'
+import bootstrap from '@/bootstrap'
 
+const router = initRouter(store.state.setting.asyncRoutes)
+const i18n = initI18n('CN', 'US')
 
-Vue.prototype.$moment = moment;
+Vue.use(Antd)
 Vue.config.productionTip = false
-Vue.use(bulma);
-Vue.use(iView);
-Vue.use(vueXlsxTable, {rABS: false});
+Vue.use(Viser)
+Vue.use(Plugins)
 
-//全局信息提示
-Vue.prototype.$Message.config({
-    top: 150,     //设置默认距离顶部高度
-    duration: 3   //设置默认显示时间
-});
-
+bootstrap({router, store, i18n, message: Vue.prototype.$message})
 
 new Vue({
   router,
   store,
-  render: h => h(App)
+  i18n,
+  render: h => h(App),
 }).$mount('#app')
