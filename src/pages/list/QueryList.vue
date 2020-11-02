@@ -184,13 +184,14 @@ export default {
       selectedRows: []
     }
   },
-  authorize: {
-    deleteRecord: 'delete'
-  },
+  // authorize: {
+  //   deleteRecord: 'delete'
+  // },
   methods: {
     deleteRecord(key) {
-      this.dataSource = this.dataSource.filter(item => item.key !== key)
-      this.selectedRows = this.selectedRows.filter(item => item.key !== key)
+      console.log(key)
+      // this.dataSource = this.dataSource.filter(item => item.key !== key)
+      // this.selectedRows = this.selectedRows.filter(item => item.key !== key)
     },
     toggleAdvanced () {
       this.advanced = !this.advanced

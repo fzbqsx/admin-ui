@@ -29,7 +29,32 @@ const options = {
         {
           path: 'orderMessge',
           name: '订单管理',
-          component: () => import('@/pages/orderMessge/orderMessge'),
+          component: PageView,
+          //component: () => import('@/pages/orderMessge/orderMessge'),
+          redirect: 'orderList',
+        },
+        {
+          path: 'orderList',
+          name: '订单管理',
+          component: () => import('@/pages/orderMessge/orderList'),
+          invisible: true,
+        },
+        {
+          path: 'personnelMessage',
+          name: '人员管理',
+          component: PageView,
+          children:[
+            {
+              path: 'teacherMessage',
+              name: '教师管理',
+              component: () => import('@/pages/personnelMessage/teacherMessage'),
+            },
+            {
+              path: 'studentMessage',
+              name: '学生管理',
+              component: () => import('@/pages/personnelMessage/studentMessage'),
+            },
+          ]
         },
 
         {
@@ -43,23 +68,18 @@ const options = {
             {
               path: 'workplace',
               name: '工作台',
-              // meta: {
-              //   page: {
-              //     closable: false
-              //   }
-              // },
+              meta: {
+                page: {
+                  closable: false
+                }
+              },
               component: () => import('@/pages/dashboard/workplace'),
             },
             {
               path: 'analysis',
               name: '分析页',
               component: () => import('@/pages/dashboard/analysis'),
-            },
-            {
-              path: 'orderList',
-              name: '订单管理',
 
-              component: () => import('@/pages/dashboard/workplace/orderList'),
             },
           ]
         },
