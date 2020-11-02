@@ -1,17 +1,18 @@
 <template>
   <div class="page-layout">
-    <page-header ref="pageHeader" :style="`margin-top: ${multiPage ? 0 : -24}px`" :breadcrumb="breadcrumb" :title="pageTitle" :logo="logo" :avatar="avatar">
+<!--    <page-header ref="pageHeader" :style="`margin-top: ${multiPage ? 0 : -24}px`" :breadcrumb="breadcrumb" :title="pageTitle" :logo="logo" :avatar="avatar">-->
+    <page-header ref="pageHeader" :style="`margin-top: ${multiPage ? 0 : -24}px`" :breadcrumb="breadcrumb"  :avatar="avatar">
       <slot name="action"  slot="action"></slot>
-      <slot slot="content" name="headerContent"></slot>
-      <div slot="content" v-if="!this.$slots.headerContent && desc">
-        <p>{{desc}}</p>
-        <div v-if="this.linkList" class="link">
-          <template  v-for="(link, index) in linkList">
-            <a :key="index" :href="link.href"><a-icon :type="link.icon" />{{link.title}}</a>
-          </template>
-        </div>
-      </div>
-      <slot v-if="this.$slots.extra" slot="extra" name="extra"></slot>
+<!--      <slot slot="content" name="headerContent"></slot>-->
+<!--      <div slot="content" v-if="!this.$slots.headerContent && desc">-->
+<!--        <p>{{desc}}</p>-->
+<!--        <div v-if="this.linkList" class="link">-->
+<!--          <template  v-for="(link, index) in linkList">-->
+<!--            <a :key="index" :href="link.href"><a-icon :type="link.icon" />{{link.title}}</a>-->
+<!--          </template>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--      <slot v-if="this.$slots.extra" slot="extra" name="extra"></slot>-->
     </page-header>
     <div ref="page" :class="['page-content', layout, pageWidth]" >
       <slot></slot>
@@ -61,14 +62,14 @@ export default {
   },
   computed: {
     ...mapState('setting', ['layout', 'multiPage', 'pageMinHeight', 'pageWidth']),
-    pageTitle() {
-      let pageTitle = this.page && this.page.title
-      return pageTitle === undefined ? (this.title || this.routeName) : this.$t(pageTitle)
-    },
-    routeName() {
-      const route = this.$route
-      return this.$t(getI18nKey(route.matched[route.matched.length - 1].path))
-    },
+    // pageTitle() {
+    //   let pageTitle = this.page && this.page.title
+    //   return pageTitle === undefined ? (this.title || this.routeName) : this.$t(pageTitle)
+    // },
+    // routeName() {
+    //   const route = this.$route
+    //   return this.$t(getI18nKey(route.matched[route.matched.length - 1].path))
+    // },
     breadcrumb() {
       let page = this.page
       let breadcrumb = page && page.breadcrumb

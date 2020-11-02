@@ -27,6 +27,12 @@ const options = {
       redirect: '/login',
       children: [
         {
+          path: 'orderMessge',
+          name: '订单管理',
+          component: () => import('@/pages/orderMessge/orderMessge'),
+        },
+
+        {
           path: 'dashboard',
           name: 'Dashboard',
           meta: {
@@ -37,33 +43,52 @@ const options = {
             {
               path: 'workplace',
               name: '工作台',
-              meta: {
-                page: {
-                  closable: false
-                }
-              },
+              // meta: {
+              //   page: {
+              //     closable: false
+              //   }
+              // },
               component: () => import('@/pages/dashboard/workplace'),
             },
             {
               path: 'analysis',
               name: '分析页',
               component: () => import('@/pages/dashboard/analysis'),
-            }
+            },
+            {
+              path: 'orderList',
+              name: '订单管理',
+
+              component: () => import('@/pages/dashboard/workplace/orderList'),
+            },
           ]
         },
+
         {
           path: 'form',
-          name: '表单页',
+          name: '表单页1',
           meta: {
             icon: 'form',
           },
           component: PageView,
           children: [
             {
-              path: 'basic',
+              path: 'basic1',
               name: '基础表单',
               component: () => import('@/pages/form/basic'),
             },
+            // {
+            //   path: 'basic',
+            //   name: '测试',
+            //   component: PageView,
+            //   children: [
+            //     {
+            //       path: 'basic',
+            //       name: '测试1',
+            //       component: () => import('@/pages/form/basic/BasicFForm'),
+            //     }
+            //   ]
+            // },
             {
               path: 'step',
               name: '分步表单',
