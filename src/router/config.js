@@ -27,18 +27,18 @@ const options = {
       redirect: '/login',
       children: [
         {
-          path: 'orderMessge',
-          name: '订单管理',
-          component: PageView,
-          //component: () => import('@/pages/orderMessge/orderMessge'),
-          redirect: 'orderList',
+          path: 'newsRecord',
+          name: '消息记录',
+          component: () => import('@/pages/newsRecord/newsRecord'),
+          // redirect: 'orderList',
         },
         {
           path: 'orderList',
           name: '订单管理',
           component: () => import('@/pages/orderMessge/orderList'),
-          invisible: true,
+          // invisible: true,
         },
+
         {
           path: 'personnelMessage',
           name: '人员管理',
@@ -56,6 +56,86 @@ const options = {
             },
           ]
         },
+        {
+          path: 'teamList',
+          name: '战队管理',
+          // component: PageView,
+          component: () => import('@/pages/teamMessage/teamList'),
+        },
+        {
+          path: 'extracurricularActivities',
+          name: '课外活动',
+          // component: PageView,
+          component: () => import('@/pages/extracurricularActivities/extracurricularActivities'),
+        },
+        {
+          path: 'commodityMessage',
+          name: '商品管理',
+          component: PageView,
+          children: [
+            {
+              path: 'commodityList',
+              name: '商品管理',
+              component: () => import('@/pages/commodityMessage/commodityList'),
+            },
+            {
+              path: 'category',
+              name: '类目管理',
+              component: () => import('@/pages/commodityMessage/category'),
+            }
+          ]
+        },
+        {
+          path: 'otherMessage',
+          name: '其他管理',
+          component: PageView,
+          children: [
+            {
+              path: 'integralSet',
+              name: '积分设置',
+              component: () => import('@/pages/otherMessage/integralSet'),
+            },
+            {
+              path: 'teamBePromoted',
+              name: '战队晋级设置',
+              component: () => import('@/pages/otherMessage/teamBePromoted'),
+            },
+            {
+              path: 'feedbackRecord',
+              name: '反馈记录',
+              component: () => import('@/pages/otherMessage/feedbackRecord'),
+            },
+            {
+              path: 'serviceCentre',
+              name: '服务中心',
+              component: () => import('@/pages/otherMessage/serviceCentre'),
+            }
+          ]
+        },
+        {
+          path: 'dataCenter',
+          name: '数据中心',
+          component: PageView,
+          children: [
+            {
+              path: 'clockInData',
+              name: '打卡数据',
+              component: () => import('@/pages/dataCenter/clockInData'),
+            },
+            {
+              path: 'courseData',
+              name: '课程数据',
+              component: () => import('@/pages/dataCenter/courseData'),
+            },
+            {
+              path: 'JobData',
+              name: '学生作业数据',
+              component: () => import('@/pages/dataCenter/JobData'),
+            }
+          ]
+        },
+
+
 
         {
           path: 'dashboard',
