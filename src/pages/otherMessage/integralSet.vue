@@ -22,7 +22,7 @@
       </a-form-item>
       <a-form-item label="积分明细" >
         <a-col span="20">
-          <a-input style="color: #000000" v-model="input.detail" disabled='true' />
+          <a-input style="color: #000000" v-model="input.detail" :disabled="true" />
         </a-col>
       </a-form-item>
     </a-form>

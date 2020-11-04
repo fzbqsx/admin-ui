@@ -192,7 +192,6 @@ export default {
       if("del"===type){
         this.modal={modalShow:true,title:"删除", aform:false,del:true,text:record.actionTitle}
       }
-
     },
     onSearch(){
       console.log("点击搜索")
