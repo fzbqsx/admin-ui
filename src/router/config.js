@@ -1,5 +1,5 @@
 import TabsView from '@/layouts/tabs/TabsView'
-import BlankView from '@/layouts/BlankView'
+// import BlankView from '@/layouts/BlankView'
 import PageView from '@/layouts/PageView'
 
 // 路由配置
@@ -30,16 +30,20 @@ const options = {
           path: 'newsRecord',
           name: '消息记录',
           component: () => import('@/pages/newsRecord/newsRecord'),
-          // redirect: 'orderList',
         },
         {
           path: 'orderList',
           name: '订单管理',
           component: () => import('@/pages/orderMessge/orderList'),
-          // component: BlankView,
-          // invisible: true,
         },
-
+        {
+          path: 'logistics',
+          name: '物流信息',
+          component: () => import('@/pages/orderMessge/logistics'),
+          meta: {
+            invisible: true
+          }
+        },
         {
           path: 'personnelMessage',
           name: '人员管理',
@@ -60,13 +64,11 @@ const options = {
         {
           path: 'teamList',
           name: '战队管理',
-          // component: PageView,
           component: () => import('@/pages/teamMessage/teamList'),
         },
         {
           path: 'extracurricularActivities',
           name: '课外活动',
-          // component: PageView,
           component: () => import('@/pages/extracurricularActivities/extracurricularActivities'),
         },
         {
@@ -76,7 +78,7 @@ const options = {
           children: [
             {
               path: 'commodityList',
-              name: '商品管理',
+              name: '商品列表',
               component: () => import('@/pages/commodityMessage/commodityList'),
             },
             {
@@ -138,24 +140,24 @@ const options = {
 
 
 
-        {
-          path: 'dashboard',
-          name: 'Dashboard',
-          meta: {
-            icon: 'dashboard'
-          },
-          component: BlankView,
-          children: [
-            {
-              path: 'workplace',
-              name: '工作台',
-              meta: {
-                page: {
-                  closable: false
-                }
-              },
-              component: () => import('@/pages/dashboard/workplace'),
-            },
+        // {
+        //   path: 'dashboard',
+        //   name: 'Dashboard',
+        //   meta: {
+        //     icon: 'dashboard'
+        //   },
+        //   component: BlankView,
+        //   children: [
+        //     {
+        //       path: 'workplace',
+        //       name: '工作台',
+        //       meta: {
+        //         page: {
+        //           closable: false
+        //         }
+        //       },
+        //       component: () => import('@/pages/dashboard/workplace'),
+        //     },
             // {
             //   path: 'analysis',
             //   name: '分析页',
@@ -369,8 +371,8 @@ const options = {
         //     link: 'https://iczer.gitee.io/vue-antd-admin-docs/'
         //   }
         // }
-      ]
-    },
+      // ]
+    // },
   ]
 }
 

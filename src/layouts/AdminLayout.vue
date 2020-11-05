@@ -25,7 +25,6 @@
     </a-layout>
   </a-layout>
 </template>
-
 <script>
 import AdminHeader from './header/AdminHeader'
 // import PageFooter from './footer/PageFooter'
@@ -66,7 +65,7 @@ export default {
     }
   },
   computed: {
-    ...mapState('setting', ['isMobile', 'theme', 'layout', 'footerLinks', 'copyright', 'fixedHeader', 'fixedSideBar',
+    ...mapState('setting', ['isMobile', 'theme', 'layout', 'fixedHeader', 'fixedSideBar',
       'fixedTabs', 'hideSetting', 'multiPage']),
     ...mapGetters('setting', ['firstMenu', 'subMenu', 'menuData']),
     sideMenuWidth() {

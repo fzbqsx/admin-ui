@@ -22,9 +22,9 @@
       <span slot="action" slot-scope="text, record">
 <!--        <a-button v-if="record.status==='1'" type="primary" ghost>查看详情</a-button>-->
         <a-button v-if="record.status==='2'" type="primary" ghost @click="consignment(record)">发货</a-button>
-        <a-button v-if="record.status==='3'" type="primary" ghost>查看物流</a-button>
-        <a-button v-if="record.status==='4'" type="primary" ghost>查看详情</a-button>
-        <a-button v-if="record.status==='5'" type="primary" ghost>查看详情</a-button>
+        <a-button v-if="record.status==='3'" type="primary" ghost @click="toLogistics">查看物流</a-button>
+        <a-button v-if="record.status==='4'" type="primary" ghost @click="toLogistics">查看详情</a-button>
+        <a-button v-if="record.status==='5'" type="primary" ghost @click="toLogistics">查看详情</a-button>
       </span>
     </a-table>
     <a-modal v-model=modal.modalShow  :title=modal.title >
@@ -153,6 +153,9 @@ export default {
         this.modal.title="完善物流信息"
         this.modal.aform=true
       }
+    },
+    toLogistics(){
+      this.$router.replace( '/logistics')
     }
   },
   mounted() {

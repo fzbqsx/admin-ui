@@ -105,23 +105,23 @@
         </a-list-item>
       </a-list>
     </setting-item>
-    <a-alert
-      v-if="isDev"
-      style="max-width: 240px; margin: -16px 0 8px; word-break: break-all"
-      type="warning"
-      :message="$t('alert')"
-    >
-    </a-alert>
-    <a-button v-if="isDev" id="copyBtn" :data-clipboard-text="copyConfig" @click="copyCode" style="width: 100%" icon="copy" >{{$t('copy')}}</a-button>
+<!--    <a-alert-->
+<!--      v-if="isDev"-->
+<!--      style="max-width: 240px; margin: -16px 0 8px; word-break: break-all"-->
+<!--      type="warning"-->
+<!--      :message="$t('alert')"-->
+<!--    >-->
+<!--    </a-alert>-->
+<!--    <a-button v-if="isDev" id="copyBtn" :data-clipboard-text="copyConfig" @click="copyCode" style="width: 100%" icon="copy" >{{$t('copy')}}</a-button>-->
   </div>
 </template>
 
 <script>
 import SettingItem from './SettingItem'
 import {ColorCheckbox, ImgCheckbox} from '@/components/checkbox'
-import Clipboard from 'clipboard'
+// import Clipboard from 'clipboard'
 import { mapState, mapMutations } from 'vuex'
-import {formatConfig} from '@/utils/formatter'
+// import {formatConfig} from '@/utils/formatter'
 import {setting} from '@/config/default'
 import sysConfig from '@/config/config'
 import fastEqual from 'fast-deep-equal'
@@ -154,23 +154,23 @@ export default {
     getPopupContainer() {
       return this.$el.parentNode
     },
-    copyCode () {
-      let config = this.extractConfig(false)
-      this.copyConfig = `// 自定义配置，参考 ./default/setting.config.js，需要自定义的属性在这里配置即可
-      module.exports = ${formatConfig(config)}
-      `
-      let clipboard = new Clipboard('#copyBtn')
-      clipboard.on('success', () => {
-        this.$message.success(`复制成功，覆盖文件 src/config/config.js 然后重启项目即可生效`).then(() => {
-          const localConfig = localStorage.getItem(process.env.VUE_APP_SETTING_KEY)
-          if (localConfig) {
-            console.warn('检测到本地有历史保存的主题配置，想要要拷贝的配置代码生效，您可能需要先重置配置')
-            this.$message.warn('检测到本地有历史保存的主题配置，想要要拷贝的配置代码生效，您可能需要先重置配置', 5)
-          }
-        })
-        clipboard.destroy()
-      })
-    },
+    // copyCode () {
+    //   let config = this.extractConfig(false)
+    //   this.copyConfig = `// 自定义配置，参考 ./default/setting.config.js，需要自定义的属性在这里配置即可
+    //   module.exports = ${formatConfig(config)}
+    //   `
+    //   let clipboard = new Clipboard('#copyBtn')
+    //   clipboard.on('success', () => {
+    //     this.$message.success(`复制成功，覆盖文件 src/config/config.js 然后重启项目即可生效`).then(() => {
+    //       const localConfig = localStorage.getItem(process.env.VUE_APP_SETTING_KEY)
+    //       if (localConfig) {
+    //         console.warn('检测到本地有历史保存的主题配置，想要要拷贝的配置代码生效，您可能需要先重置配置')
+    //         this.$message.warn('检测到本地有历史保存的主题配置，想要要拷贝的配置代码生效，您可能需要先重置配置', 5)
+    //       }
+    //     })
+    //     clipboard.destroy()
+    //   })
+    // },
     saveSetting() {
       const closeMessage = this.$message.loading('正在保存到本地，请稍后...', 0)
       const config = this.extractConfig(true)
