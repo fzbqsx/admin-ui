@@ -1,13 +1,13 @@
 module.exports = {
-  title: 'Vue Antd Admin',
-  description: 'Vue Antd Admin',
-  base: '/vue-antd-admin-docs/',
+  title: 'TSMP',
+  description: 'TSMP',
+  base: '/admin-ui-docs/',
   head: [
     ['link', { rel: 'icon', href: '/favicon.ico' }]
   ],
   themeConfig: {
     logo: '/logo.png',
-    repo: 'iczer/vue-antd-admin',
+    repo: 'iczer/admin-ui',
     docsDir: 'docs',
     editLinks: true,
     editLinkText: '在 Github 上帮助我们编辑此页',

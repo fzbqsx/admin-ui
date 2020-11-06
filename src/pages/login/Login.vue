@@ -3,7 +3,6 @@
     <div class="top">
       <div class="header">
         <img alt="logo" class="logo" src="@/assets/logo.png" />
-<!--        <span class="title">{{systemName}}</span>-->
       </div>
     </div>
     <div class="login">
@@ -60,13 +59,7 @@
         <a-form-item>
           <a-button :loading="logging" style="width: 100%;margin-top: 24px" size="large" htmlType="submit" type="primary">登录</a-button>
         </a-form-item>
-<!--        <div>-->
-<!--          其他登录方式-->
-<!--          <a-icon class="icon" type="alipay-circle" />-->
-<!--          <a-icon class="icon" type="taobao-circle" />-->
-<!--          <a-icon class="icon" type="weibo-circle" />-->
-<!--          <router-link style="float: right" to="/dashboard/workplace" >注册账户</router-link>-->
-<!--        </div>-->
+
       </a-form>
     </div>
   </common-layout>
@@ -89,11 +82,7 @@ export default {
       form: this.$form.createForm(this)
     }
   },
-  // computed: {
-    // systemName () {
-    //   return this.$store.state.setting.systemName
-    // }
-  // },
+
   methods: {
     ...mapMutations('account', ['setUser', 'setPermissions', 'setRoles']),
     onSubmit (e) {
@@ -136,15 +125,8 @@ export default {
     .top {
       text-align: center;
       .header {
-        //height: 44px;
-        //line-height: 44px;
-        //a {
-        //  text-decoration: none;
-        //}
         .logo {
           height: 120px;
-          //vertical-align: top;
-          //margin-right: 16px;
           border-radius: 50%;
         }
         .title {

@@ -2,29 +2,33 @@
   <a-card>
     <div class="tableTitle">
       <h1>类目管理</h1>
-      <a-button  type="primary" @click="consignment('','add')"><a-icon type="plus"/>新增</a-button>
+      <a-button  type="primary" @click="clickButton('','add')"><a-icon type="plus"/>新增</a-button>
     </div>
     <a-table :columns="columns" :data-source="data">
       <span class="masterImg" slot="masterImg" >
-        <img src="../../assets/masterImg/图像 2.png" />
+        <img src='../../assets/masterImg/图像 2.png' />
       </span>
       <span slot="action" slot-scope="text, record" class="actionbutton">
-        <a-button type="primary" ghost @click="consignment(record,'update')">修改</a-button>
-        <a-button type="primary" ghost  @click="consignment(record,'del')">删除</a-button>
+        <a-button type="primary" ghost @click="clickButton(record,'update')">修改</a-button>
+        <a-button type="primary" ghost  @click="clickButton(record,'del')">删除</a-button>
       </span>
     </a-table>
     <a-modal v-model=modal.modalShow  :title=modal.title >
       <div v-show="modal.del" class="delectModal">
         <p>是否确定删除（<span >{{modal.text}}</span>）商品？</p>
       </div>
-      <a-form v-show="modal.aform" :label-col="{ span: 5 }" :wrapper-col="{ span: 15 }">
-        <a-form-item label="标题" >
+      <a-form-model v-show="modal.aform" :label-col="{ span: 5 }" :wrapper-col="{ span: 15 }">
+        <a-form-model-item label="标题" >
           <a-input v-model="input.title" placeholder="请输入标题"/>
-        </a-form-item>
-        <a-form-item label="类目名称" >
-          <a-input v-model="input.commodityType" placeholder="请输入类目名称"/>
-        </a-form-item>
-        <a-form-item label="封面上传">
+        </a-form-model-item>
+        <a-form-model-item label="类目名称" >
+          <a-select v-model="input.team" placeholder="请选择类目">
+            <a-select-option v-for="item in teamList" :key="item.id">
+              {{ item.name }}
+            </a-select-option>
+          </a-select>
+        </a-form-model-item>
+        <a-form-model-item label="封面上传">
           <a-upload
               name="avatar"
               list-type="picture-card"
@@ -38,25 +42,27 @@
               <a-icon :type="input.loading ? 'loading' : 'plus'" />
             </div>
           </a-upload>
-        </a-form-item>
-        <a-form-item label="详情页" >
+        </a-form-model-item>
+        <a-form-model-item label="详情页" >
+<!--          <div id="editor"></div>-->
           <a-input v-model="input.commodityDetails" placeholder="请输入详情页"/>
-        </a-form-item>
-        <a-form-item label="所需积分" >
+        </a-form-model-item>
+        <a-form-model-item label="所需积分" >
           <a-input v-model="input.integralPrice" placeholder="请输入所需积分"/>
-        </a-form-item>
-      </a-form>
+        </a-form-model-item>
+      </a-form-model>
     </a-modal>
   </a-card>
 </template>
 
 <script>
-
 export default {
   name: "commodityList",
   
   data(){
+
     return {
+      teamList:[{id:'1',name:'生活用品'},{id:'2',name:'学习用品'},{id:'3',name:'果蔬类'},{id:'4',name:'生鲜类'}],
       modal:{modalShow:false,title:"", aform:false,del:false,text:""},
       input:{masterImg:"",title:"",integralPrice:"",commodityType:"",commodityDetails:"",imageUrl:"",loading:false},
       columns : [
@@ -121,6 +127,7 @@ export default {
   },
   
   methods:{
+
     getBase64(img, callback) {
       const reader = new FileReader();
       reader.addEventListener('load', () => callback(reader.result));
@@ -149,7 +156,7 @@ export default {
       }
       return isJpgOrPng && isLt2M;
     },
-    consignment(record, type){
+    clickButton(record, type){
       if("add"===type){
         this.input={masterImg:"",title:"",integralPrice:"",commodityType:"",commodityDetails:"",imageUrl:"",loading:false};
         this.modal={modalShow:true,title:"新建商品", aform:true,del:false,text:""}
@@ -163,6 +170,7 @@ export default {
       }
 
     },
+
   },
   
   mounted() {

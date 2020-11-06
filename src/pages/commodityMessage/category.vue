@@ -2,23 +2,23 @@
   <a-card>
     <div class="tableTitle">
       <h1>类目管理</h1>
-      <a-button  type="primary" @click="consignment('','add')"><a-icon type="plus"/>新增</a-button>
+      <a-button type="primary" @click="clickButton('','add')"><a-icon type="plus"/>新增</a-button>
     </div>
     <a-table :columns="columns" :data-source="data">
       <span slot="action" slot-scope="text, record" class="actionbutton">
-        <a-button type="primary" ghost @click="consignment(record,'update')">修改</a-button>
-        <a-button type="primary" ghost  @click="consignment(record,'del')">删除</a-button>
+        <a-button type="primary" ghost @click="clickButton(record,'update')">修改</a-button>
+        <a-button type="primary" ghost  @click="clickButton(record,'del')">删除</a-button>
       </span>
     </a-table>
-    <a-modal v-model=modal.modalShow  :title=modal.title >
+    <a-modal v-model=modal.modalShow  :title=modal.title @ok="handleOk" @cancel="handleCancel">
       <div v-show="modal.del" class="delectModal">
         <p>是否确定删除（<span >{{modal.text}}</span>）类目？</p>
       </div>
-      <a-form v-show="modal.aform" :label-col="{ span: 5 }" :wrapper-col="{ span: 15 }">
-        <a-form-item label="类目名称" >
-          <a-input v-model="input.categoryTitle" placeholder="请输入类目名称"/>
-        </a-form-item>
-      </a-form>
+      <a-form-model v-show="modal.aform" :model="form" :rules="rules" ref="ruleForm" :label-col="{ span: 5 }" :wrapper-col="{ span: 15 }">
+        <a-form-model-item ref="categoryTitle" label="类目名称" prop="categoryTitle">
+          <a-input v-model="form.categoryTitle" placeholder="请输入类目名称" @blur="() => { $refs.categoryTitle.onFieldBlur(); }"/>
+        </a-form-model-item>
+      </a-form-model>
     </a-modal>
   </a-card>
 </template>
@@ -31,7 +31,13 @@ export default {
   data() {
     return {
       modal:{modalShow:false,title:"", aform:false,del:false,text:""},
-      input:{categoryTitle:"",time:""},
+      form:{categoryTitle:"",time:""},
+      rules: {
+        categoryTitle: [
+          { required: true, message: '请输入类目名称', trigger: 'blur' },
+          { min: 1, max: 10, message: '名称长度为1-10', trigger: 'blur' },
+        ],
+      },
       columns : [
         {
           title:'标题',
@@ -47,6 +53,7 @@ export default {
           title: '操作',
           key: 'action',
           align:'center',
+          width: 300,
           scopedSlots: { customRender: 'action' },
         },
       ],
@@ -72,14 +79,28 @@ export default {
   },
 
   methods: {
-
-    consignment(record, type){
+    handleOk() {
+      this.$refs.ruleForm.validate(valid => {
+        if (valid) {
+          this.$message.success("成功！")
+          console.log(this.form.categoryTitle)
+          this.handleCancel();
+        } else {
+          return false;
+        }
+      });
+    },
+    handleCancel(){
+      this.$refs.ruleForm.resetFields();
+      this.modal.modalShow=false
+    },
+    clickButton(record, type){
       if("add"===type){
-        this.input={categoryTitle:"",time:""};
+        this.form={categoryTitle:"",time:""};
         this.modal={modalShow:true,title:"新增类目", aform:true,del:false,text:""}
       }
       if("update"===type){
-        this.input={categoryTitle:record.categoryTitle,time:record.time};
+        this.form={categoryTitle:record.categoryTitle,time:record.time};
         this.modal={modalShow:true,title:"修改类目", aform:true,del:false,text:""}
       }
       if("del"===type){
@@ -95,7 +116,11 @@ export default {
   }
 }
 </script>
-
+<style>
+.ant-form-item-required::before{
+  display: none;
+}
+</style>
 <style scoped lang="sass">
 @import "css/category"
 </style>
