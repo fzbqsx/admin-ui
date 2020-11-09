@@ -2,27 +2,27 @@
   <a-card>
     <div class="tableTitle">
         <h1>课外活动</h1>
-        <a-button  type="primary" @click="consignment('','add')"><a-icon type="plus"/>新建活动</a-button>
+        <a-button  type="primary" @click="clickButton('','add')"><a-icon type="plus"/>新建活动</a-button>
     </div>
     <a-table :columns="columns" :data-source="data">
       <span slot="action" slot-scope="text, record" class="actionbutton">
-        <a-button type="primary" ghost @click="consignment(record,'update')">修改</a-button>
-        <a-button type="primary" ghost  @click="consignment(record,'del')">删除</a-button>
+        <a-button type="primary" ghost @click="clickButton(record,'update')">修改</a-button>
+        <a-button type="primary" ghost  @click="clickButton(record,'del')">删除</a-button>
       </span>
     </a-table>
-    <a-modal v-model=modal.modalShow  :title=modal.title >
-      <div v-show="modal.del" class="delectModal">
+    <a-modal v-model=modal.modalShow  :title=modal.title width="60%" @ok="handleOk" @cancel="handleCancel">
+      <div v-if="modal.del" class="delectModal">
         <p>是否确定删除（<span >{{modal.text}}</span>）活动？</p>
       </div>
-      <a-form v-show="modal.aform" :label-col="{ span: 5 }" :wrapper-col="{ span: 15 }">
-        <a-form-item label="标题" >
-          <a-input v-model="input.actionTitle" placeholder="请输入标题"/>
+      <a-form v-else v-model="form"  ref="ruleForm" :label-col="{ span: 5 }" :wrapper-col="{ span: 15 }">
+        <a-form-item label="标题">
+          <a-input v-model="form.actionTitle" placeholder="请输入标题"/>
         </a-form-item>
         <a-form-item label="类型">
-          <a-input v-model="input.actionType" placeholder="请输入类型"/>
+          <a-input v-model="form.actionType" placeholder="请输入类型"/>
         </a-form-item>
         <a-form-item label="详情页">
-          <a-textarea v-model="input.details" placeholder="请输入详情信息" :auto-size="{ minRows: 3, maxRows: 15 }"/>
+          <a-textarea v-model="form.details" placeholder="请输入详情信息" :auto-size="{ minRows: 3, maxRows: 15 }"/>
         </a-form-item>
         <a-form-item label="封面上传">
           <a-upload
@@ -33,24 +33,24 @@
               :before-upload="beforeUpload"
               @change="handleChange"
           >
-            <img v-if="input.imageUrl" :src="input.imageUrl" alt="avatar" />
+            <img v-if="form.imageUrl" :src="form.imageUrl" alt="avatar" />
             <div v-else class="ant-upload-text">
-              <a-icon :type="input.loading ? 'loading' : 'plus'" />
+              <a-icon :type="form.loading ? 'loading' : 'plus'" />
             </div>
           </a-upload>
         </a-form-item>
-        <a-form-item label="报名时间">
-          <a-range-picker show-time v-model="input.applyTime">
-            <template slot="renderExtraFooter">
-            </template>
-          </a-range-picker>
-        </a-form-item>
-        <a-form-item label="活动时间" >
-          <a-range-picker show-time v-model="input.actionTime">
-            <template slot="renderExtraFooter">
-            </template>
-          </a-range-picker>
-        </a-form-item>
+<!--        <a-form-item label="报名时间">-->
+<!--          <a-range-picker show-time v-model="form.applyTime">-->
+<!--            <template slot="renderExtraFooter">-->
+<!--            </template>-->
+<!--          </a-range-picker>-->
+<!--        </a-form-item>-->
+<!--        <a-form-item label="活动时间" >-->
+<!--          <a-range-picker show-time v-model="form.actionTime">-->
+<!--            <template slot="renderExtraFooter">-->
+<!--            </template>-->
+<!--          </a-range-picker>-->
+<!--        </a-form-item>-->
         <a-form-item label="报名条件">
           <a-select
               mode="tags"
@@ -77,8 +77,8 @@ export default {
 
   data() {
     return {
-      modal:{modalShow:false,title:"", aform:false,del:false,text:""},
-      input:{actionTitle:"",actionType:"",details:"",applyTime:"",actionTime:"",condition:"",imageUrl:"",loading:false},
+      modal:{modalShow:false,title:"", del:false,text:""},
+      form:{actionTitle:"",actionType:"",details:"",applyTime:"",actionTime:"",condition:"",imageUrl:"",loading:false},
       columns : [
         {
           title:'标题',
@@ -149,6 +149,47 @@ export default {
   },
 
   methods: {
+    handleOk() {
+      if(this.modal.del===false){
+        this.$refs.ruleForm.validate(valid => {
+          if (valid) {
+            this.$message.success("成功！")
+            console.log(this.form.actionTitle)
+            this.handleCancel();
+          } else {
+            return false;
+          }
+        });
+      }else{
+        this.$message.success("删除成功！")
+        this.handleCancel();
+      }
+    },
+    handleCancel(){
+      console.log(this.modal.del===false)
+      if(this.modal.del===false){
+        console.log("=======")
+        this.$refs.ruleForm.resetFields();
+      }
+      this.modal.modalShow=false
+    },
+    selectCondition(value){
+      console.log(`Selected: ${value}`);
+    },
+    clickButton(record, type){
+      if("add"===type){
+        this.input={actionTitle:"",actionType:"",details:"",applyTime:"",actionTime:"",condition:"",imageUrl:"",loading:false};
+        this.modal={modalShow:true,title:"新增活动", del:false,text:""}
+      }
+      if("update"===type){
+        this.input={actionTitle:record.actionTitle,actionType:record.actionType,details:record.details,applyTime:"",actionTime:"",condition:"",imageUrl:"",loading:false};
+        this.modal={modalShow:true,title:"修改活动", del:false,text:""}
+      }
+      if("del"===type){
+        this.modal={modalShow:true,title:"删除", del:true,text:record.actionTitle}
+      }
+    },
+
     getBase64(img, callback) {
       const reader = new FileReader();
       reader.addEventListener('load', () => callback(reader.result));
@@ -177,26 +218,8 @@ export default {
       }
       return isJpgOrPng && isLt2M;
     },
-    selectCondition(value){
-      console.log(`Selected: ${value}`);
-    },
-    consignment(record, type){
-      if("add"===type){
-        this.input={actionTitle:"",actionType:"",details:"",applyTime:"",actionTime:"",condition:"",imageUrl:"",loading:false};
-        this.modal={modalShow:true,title:"新增活动", aform:true,del:false,text:""}
-      }
-      if("update"===type){
-        this.input={actionTitle:record.actionTitle,actionType:record.actionType,details:record.details,applyTime:"",actionTime:"",condition:"",imageUrl:"",loading:false};
-        this.modal={modalShow:true,title:"修改活动", aform:true,del:false,text:""}
-      }
-      if("del"===type){
-        this.modal={modalShow:true,title:"删除", aform:false,del:true,text:record.actionTitle}
-      }
-    },
-    onSearch(){
-      console.log("点击搜索")
-    }
   },
+
 
   mounted() {
 
@@ -205,5 +228,10 @@ export default {
 </script>
 
 <style scoped lang="sass">
-@import "css/extracurricularActivities"
+
+@import "../../pages/commonality/css/unified"
+
+.ant-upload-text
+  color: #FFFFFF
+  font-size: 35px
 </style>

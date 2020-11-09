@@ -1,7 +1,7 @@
 <template>
   <a-card>
     <div class="tableTitle">
-      <h1>类目管理</h1>
+      <h1>商品管理</h1>
       <a-button  type="primary" @click="clickButton('','add')"><a-icon type="plus"/>新增</a-button>
     </div>
     <a-table :columns="columns" :data-source="data">
@@ -13,17 +13,17 @@
         <a-button type="primary" ghost  @click="clickButton(record,'del')">删除</a-button>
       </span>
     </a-table>
-    <a-modal v-model=modal.modalShow  :title=modal.title >
-      <div v-show="modal.del" class="delectModal">
+    <a-modal v-model=modal.modalShow  :title=modal.title @ok="handleOk" @cancel="handleCancel">
+      <div v-if="modal.del" class="delectModal">
         <p>是否确定删除（<span >{{modal.text}}</span>）商品？</p>
       </div>
-      <a-form-model v-show="modal.aform" :label-col="{ span: 5 }" :wrapper-col="{ span: 15 }">
-        <a-form-model-item label="标题" >
-          <a-input v-model="input.title" placeholder="请输入标题"/>
+      <a-form-model v-else :model="form" :rules="rules" ref="ruleForm" :label-col="{ span: 5 }" :wrapper-col="{ span: 15 }">
+        <a-form-model-item label="标题" ref="title" prop="title">
+          <a-input v-model="form.title" placeholder="请输入标题" @blur="() => { $refs.title.onFieldBlur(); }"/>
         </a-form-model-item>
-        <a-form-model-item label="类目名称" >
-          <a-select v-model="input.team" placeholder="请选择类目">
-            <a-select-option v-for="item in teamList" :key="item.id">
+        <a-form-model-item label="类目名称" prop="categoryName">
+          <a-select v-model="form.categoryName" placeholder="请选择类目">
+            <a-select-option v-for="item in categoryNameList" :key="item.id">
               {{ item.name }}
             </a-select-option>
           </a-select>
@@ -37,18 +37,18 @@
               :before-upload="beforeUpload"
               @change="handleChange"
           >
-            <img v-if="input.imageUrl" :src="input.imageUrl" alt="avatar" />
+            <img v-if="form.imageUrl" :src="form.imageUrl" alt="avatar" />
             <div v-else class="ant-upload-text">
-              <a-icon :type="input.loading ? 'loading' : 'plus'" />
+              <a-icon :type="form.loading ? 'loading' : 'plus'" />
             </div>
           </a-upload>
         </a-form-model-item>
-        <a-form-model-item label="详情页" >
+        <a-form-model-item label="详情页" ref="commodityDetails" prop="commodityDetails" >
 <!--          <div id="editor"></div>-->
-          <a-input v-model="input.commodityDetails" placeholder="请输入详情页"/>
+          <a-input v-model="form.commodityDetails" placeholder="请输入详情页" @blur="() => { $refs.commodityDetails.onFieldBlur(); }" />
         </a-form-model-item>
-        <a-form-model-item label="所需积分" >
-          <a-input v-model="input.integralPrice" placeholder="请输入所需积分"/>
+        <a-form-model-item label="所需积分" ref="integralPrice" prop="integralPrice">
+          <a-input-number style="width: 295px" v-model="form.integralPrice" :min="0" :max="999999" placeholder="请输入所需积分" @blur="() => { $refs.integralPrice.onFieldBlur(); }"/>
         </a-form-model-item>
       </a-form-model>
     </a-modal>
@@ -62,9 +62,16 @@ export default {
   data(){
 
     return {
-      teamList:[{id:'1',name:'生活用品'},{id:'2',name:'学习用品'},{id:'3',name:'果蔬类'},{id:'4',name:'生鲜类'}],
-      modal:{modalShow:false,title:"", aform:false,del:false,text:""},
-      input:{masterImg:"",title:"",integralPrice:"",commodityType:"",commodityDetails:"",imageUrl:"",loading:false},
+      categoryNameList:[{id:'1',name:'生活用品'},{id:'2',name:'学习用品'},{id:'3',name:'果蔬类'},{id:'4',name:'生鲜类'}],
+      modal:{modalShow:false,title:"", del:false,text:""},
+      form:{title:"",categoryName:"", commodityDetails:"",integralPrice:"0",imageUrl:"",loading:false},
+      rules:{
+        title: { required: true, message: '请输入标题', trigger: 'blur'},
+        categoryName: { required: true, message: '请选择类目名称', trigger: 'change'},
+        commodityDetails:{required: true, message: '请输商品详情信息', trigger: 'blur'},
+        integralPrice:{required: true, message: '请输入所需积分', trigger: 'blur'}
+      },
+
       columns : [
         {
           title:'主图',
@@ -96,6 +103,7 @@ export default {
           title: '操作',
           key: 'action',
           align:'center',
+          width:300,
           scopedSlots: { customRender: 'action' },
         },
       ],
@@ -127,11 +135,46 @@ export default {
   },
   
   methods:{
+    handleOk() {
+      if(this.modal.del===false){
+        this.$refs.ruleForm.validate(valid => {
+          if (valid) {
+            this.$message.success("成功！")
+            console.log(this.form.title)
+            console.log(this.form.categoryName)
+            console.log(this.form.commodityDetails)
+            console.log(this.form.integralPrice)
+            console.log(this.form.imageUrl)
+            this.handleCancel();
+          } else {
+            return false;
+          }
+        });
+      }else {
+        this.$message.success("删除成功！")
+        this.handleCancel()
+      }
+    },
+    handleCancel(){
+      if(this.modal.del===false){
+        this.$refs.ruleForm.resetFields();
+      }
+      this.modal.modalShow=false
+    },
 
-    getBase64(img, callback) {
-      const reader = new FileReader();
-      reader.addEventListener('load', () => callback(reader.result));
-      reader.readAsDataURL(img);
+    //打开modal框并初始化数据
+    clickButton(record, type){
+      if("add"===type){
+        this.form={title:"",commodityDetails:"",integralPrice:"0",imageUrl:"",loading:false};
+        this.modal={modalShow:true,title:"新建商品", del:false,text:""}
+      }
+      if("update"===type){
+        this.form={title:record.title,categoryName:record.categoryName,commodityDetails:record.commodityDetails,integralPrice:record.integralPrice,imageUrl:record.masterImg,loading:false};
+        this.modal={modalShow:true,title:"修改商品", del:false,text:""}
+      }
+      if("del"===type){
+        this.modal={modalShow:true,title:"删除", del:true,text:record.title}
+      }
     },
     handleChange(info) {
       if (info.file.status === 'uploading') {
@@ -156,21 +199,11 @@ export default {
       }
       return isJpgOrPng && isLt2M;
     },
-    clickButton(record, type){
-      if("add"===type){
-        this.input={masterImg:"",title:"",integralPrice:"",commodityType:"",commodityDetails:"",imageUrl:"",loading:false};
-        this.modal={modalShow:true,title:"新建商品", aform:true,del:false,text:""}
-      }
-      if("update"===type){
-        this.input={masterImg:record.masterImg,title:record.title,integralPrice:record.integralPrice,commodityType:record.commodityType,commodityDetails:record.commodityDetails,imageUrl:"",loading:false};
-        this.modal={modalShow:true,title:"修改商品", aform:true,del:false,text:""}
-      }
-      if("del"===type){
-        this.modal={modalShow:true,title:"删除", aform:false,del:true,text:record.title}
-      }
-
+    getBase64(img, callback) {
+      const reader = new FileReader();
+      reader.addEventListener('load', () => callback(reader.result));
+      reader.readAsDataURL(img);
     },
-
   },
   
   mounted() {
@@ -178,7 +211,20 @@ export default {
   }
 }
 </script>
-
+<style>
+.ant-form-item-required::before{
+  display: none;
+}
+</style>
 <style scoped lang="sass">
-@import "css/category"
+@import "../../pages/commonality/css/unified"
+
+.ant-upload-text
+  color: #FFFFFF
+  font-size: 35px
+
+.masterImg
+  img
+    width: 60px
+    height: 60px
 </style>

@@ -8,40 +8,25 @@
         <a-button type="primary" ghost @click="consignment(record,'viewDetails')">查看详情</a-button>
       </span>
     </a-table>
-    <a-modal v-model=modal.modalShow width="60%" :title=modal.title >
-      <div>
-        <a-row style="margin: 15px">
-          <span style="float: left">姓名：</span>
-          <a-col span="8">
-            <a-input v-model="input.name"/>
-          </a-col>
-        </a-row>
-        <a-row style="margin: 15px">
-          <a-col span="8">
-            <span style="float: left">专业：</span>
-            <a-col span="20">
-              <a-input v-model="input.major"/>
-            </a-col>
-          </a-col>
-          <a-col span="8">
-            <span style="float: left">年级：</span>
-            <a-col span="20">
-              <a-input v-model="input.grade"/>
-            </a-col>
-          </a-col>
-          <a-col span="8">
-            <span style="float: left">班级：</span>
-            <a-col span="20">
-              <a-input v-model="input.class"/>
-            </a-col>
-          </a-col>
-        </a-row>
-        <a-table :columns="clockIncolumns" :data-source="clockIndata">
-            <span slot="action" slot-scope="text, record" class="actionbutton">
-              <a-button type="primary" ghost @click="consignment(record,'update')">查看详情</a-button>
-            </span>
-        </a-table>
-      </div>
+    <a-modal class="model" v-model=modal.modalShow width="60%" :title=modal.title >
+      <a-form-model :model="form" :label-col="{ span: 1 }" :wrapper-col="{ span: 15 }" labelAlign="left">
+        <a-form-model-item label="姓名" >
+          <a-input v-model="form.name" :disabled=true />
+        </a-form-model-item>
+      </a-form-model>
+      <a-form-model :model="form" layout="inline">
+        <a-form-model-item label="专业" >
+          <a-input v-model="form.major" :disabled=true />
+        </a-form-model-item>
+        <a-form-model-item label="年级" >
+          <a-input v-model="form.grade" :disabled=true />
+        </a-form-model-item>
+        <a-form-model-item label="班级" >
+          <a-input v-model="form.class" :disabled=true />
+        </a-form-model-item>
+      </a-form-model>
+      <a-table :columns="courseColumns" :data-source="courseData">
+      </a-table>
     </a-modal>
   </a-card>
 </template>
@@ -53,8 +38,8 @@ export default {
 
   data() {
     return {
-      modal:{modalShow:false,title:"", aform:false,text:""},
-      input:{name:"",major:"",grade:"",class:""},
+      modal:{modalShow:false,title:"", },
+      form:{name:"",major:"",grade:"",class:""},
       data:[
         {
           key:'111',
@@ -95,10 +80,11 @@ export default {
           title:"操作",
           dataIndex: 'action',
           align:'center',
+          width:300,
           scopedSlots: { customRender: 'action' },
         }
       ],
-      clockIncolumns:[
+      courseColumns:[
         {
           title:"全部课程",
           dataIndex: 'curriculum',
@@ -115,7 +101,7 @@ export default {
           key: 'finishTime',
         },
       ],
-      clockIndata:[
+      courseData:[
         {
           key:"111",
           curriculum:"英语零基础课程入门",
@@ -129,8 +115,8 @@ export default {
   methods: {
     consignment(record, type){
       if("viewDetails"===type){
-        this.input={name:record.name,major:record.major,grade:record.grade,class:record.class};
-        this.modal={modalShow:true,title:"打卡查询", aform:true,del:false,text:""}
+        this.form={name:record.name,major:record.major,grade:record.grade,class:record.class};
+        this.modal={modalShow:true,title:"记录查询"}
       }
     },
   },
@@ -142,5 +128,10 @@ export default {
 </script>
 
 <style scoped lang="sass">
-
+@import "../../pages/commonality/css/unified"
+.model
+  form:nth-child(2)
+    margin-bottom: 25px
+  input
+    color: #000000
 </style>

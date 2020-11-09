@@ -11,10 +11,10 @@
       </span>
     </a-table>
     <a-modal v-model=modal.modalShow  :title=modal.title @ok="handleOk" @cancel="handleCancel">
-      <div v-show="modal.del" class="delectModal">
+      <div v-if="modal.del" class="delectModal">
         <p>是否确定删除（<span >{{modal.text}}</span>）类目？</p>
       </div>
-      <a-form-model v-show="modal.aform" :model="form" :rules="rules" ref="ruleForm" :label-col="{ span: 5 }" :wrapper-col="{ span: 15 }">
+      <a-form-model v-else :model="form" :rules="rules" ref="ruleForm" :label-col="{ span: 5 }" :wrapper-col="{ span: 15 }">
         <a-form-model-item ref="categoryTitle" label="类目名称" prop="categoryTitle">
           <a-input v-model="form.categoryTitle" placeholder="请输入类目名称" @blur="() => { $refs.categoryTitle.onFieldBlur(); }"/>
         </a-form-model-item>
@@ -30,7 +30,7 @@ export default {
 
   data() {
     return {
-      modal:{modalShow:false,title:"", aform:false,del:false,text:""},
+      modal:{modalShow:false,title:"", del:false,text:""},
       form:{categoryTitle:"",time:""},
       rules: {
         categoryTitle: [
@@ -80,33 +80,39 @@ export default {
 
   methods: {
     handleOk() {
-      this.$refs.ruleForm.validate(valid => {
-        if (valid) {
-          this.$message.success("成功！")
-          console.log(this.form.categoryTitle)
-          this.handleCancel();
-        } else {
-          return false;
-        }
-      });
+      if(this.modal.del===false){
+        this.$refs.ruleForm.validate(valid => {
+          if (valid) {
+            this.$message.success("成功！")
+            console.log(this.form.categoryTitle)
+            this.handleCancel();
+          } else {
+            return false;
+          }
+        });
+      }else{
+       this.$message.success("删除成功！")
+        this.handleCancel();
+      }
     },
     handleCancel(){
-      this.$refs.ruleForm.resetFields();
+      if(this.modal.del===false){
+        this.$refs.ruleForm.resetFields();
+      }
       this.modal.modalShow=false
     },
     clickButton(record, type){
       if("add"===type){
         this.form={categoryTitle:"",time:""};
-        this.modal={modalShow:true,title:"新增类目", aform:true,del:false,text:""}
+        this.modal={modalShow:true,title:"新增类目", del:false,text:""}
       }
       if("update"===type){
         this.form={categoryTitle:record.categoryTitle,time:record.time};
-        this.modal={modalShow:true,title:"修改类目", aform:true,del:false,text:""}
+        this.modal={modalShow:true,title:"修改类目", del:false,text:""}
       }
       if("del"===type){
-        this.modal={modalShow:true,title:"删除", aform:false,del:true,text:record.categoryTitle}
+        this.modal={modalShow:true,title:"删除", del:true,text:record.categoryTitle}
       }
-
     },
 
   },
@@ -122,5 +128,5 @@ export default {
 }
 </style>
 <style scoped lang="sass">
-@import "css/category"
+@import "../../pages/commonality/css/unified"
 </style>

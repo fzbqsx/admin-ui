@@ -445,5 +445,5 @@ export default {
 </script>
 
 <style scoped lang="sass">
-@import "css/courseData"
+//@import "css/courseData"
 </style>
