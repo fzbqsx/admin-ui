@@ -154,7 +154,6 @@ export default {
         this.$refs.ruleForm.validate(valid => {
           if (valid) {
             this.$message.success("成功！")
-            console.log(this.form.actionTitle)
             this.handleCancel();
           } else {
             return false;
@@ -168,8 +167,8 @@ export default {
     handleCancel(){
       console.log(this.modal.del===false)
       if(this.modal.del===false){
-        console.log("=======")
-        this.$refs.ruleForm.resetFields();
+        // console.log("=======")
+        // this.$refs.ruleForm.resetFields();
       }
       this.modal.modalShow=false
     },

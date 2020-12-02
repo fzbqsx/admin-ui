@@ -110,7 +110,7 @@ module.exports = {
       }
     }
   },
-  publicPath: isProd ? '/admin-ui/' : '/',
+  publicPath: '/',
   outputDir: 'dist',
   assetsDir: 'static',
   productionSourceMap: false
