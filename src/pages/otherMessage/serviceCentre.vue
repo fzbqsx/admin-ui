@@ -1,5 +1,6 @@
 <template>
   <a-card>
+    <a-button type="primary" >保存</a-button>
     <a-tabs default-active-key="1" >
       <a-tab-pane key="1" tab="服务条款内容">
         <a-textarea v-model="input.termsOfService" placeholder="请输入内容" :auto-size="{ minRows: 5, maxRows: 25 }"/>

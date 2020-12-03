@@ -24,17 +24,20 @@ const options = {
       path: '/',
       name: '首页',
       component: TabsView,
-      redirect: '/login',
+      redirect: '/newsRecord',
       children: [
-        {
-          path: 'dome',
-          name: 'dome',
-          component: () => import('@/pages/orderMessge/dome'),
-        },
         {
           path: 'newsRecord',
           name: '消息记录',
           component: () => import('@/pages/newsRecord/newsRecord'),
+        },
+        {
+          path: 'entryForm',
+          name: '查看报名',
+          component: () => import('@/pages/newsRecord/entryForm'),
+          meta: {
+            invisible: true
+          }
         },
         {
           path: 'orderList',

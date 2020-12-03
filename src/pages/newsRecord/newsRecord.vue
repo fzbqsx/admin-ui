@@ -5,6 +5,9 @@
       <a-button  type="primary" @click="consignment('','add')"><a-icon type="plus"/>添加群发</a-button>
     </div>
     <a-table :columns="columns" :data-source="data">
+      <a slot="entryForm" slot-scope="text, record" @click="consignment(record,'look')" class="actionbutton">
+        查看
+      </a>
       <span slot="action" slot-scope="text, record" class="actionbutton">
         <a-button type="primary" ghost @click="consignment(record,'update')">修改</a-button>
         <a-button type="primary" ghost  @click="consignment(record,'del')">删除</a-button>
@@ -15,8 +18,8 @@
         <p>是否确定删除（<span >{{modal.text}}</span>）记录？</p>
       </div>
       <a-form v-show="modal.aform" :label-col="{ span: 5 }" :wrapper-col="{ span: 15 }">
-        <a-form-item label="编辑内容" >
-          <a-textarea v-model="input.details" placeholder="请输入内容" :auto-size="{ minRows: 3, maxRows: 15 }"/>
+        <a-form-item label="编辑标题" >
+          <a-textarea v-model="input.details" placeholder="请输入标题" :auto-size="{ minRows: 3, maxRows: 15 }"/>
         </a-form-item>
         <a-form-item label="发布对象">
           <a-select
@@ -65,6 +68,11 @@ export default {
           title: '发布时间',
           key: 'releaseTime',
           dataIndex: 'releaseTime',
+        },
+        {
+          title: '查看报名',
+          key: 'entryForm',
+          scopedSlots: { customRender: 'entryForm' },
         },
         {
           title: '操作',
@@ -120,6 +128,9 @@ export default {
       }
       if("del"===type){
         this.modal={modalShow:true,title:"删除", aform:false,del:true,text:record.title}
+      }
+      if('look'===type){
+        this.$router.push('entryForm')
       }
 
     },

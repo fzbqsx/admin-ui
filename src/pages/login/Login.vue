@@ -74,12 +74,15 @@ import {mapMutations} from 'vuex'
 
 export default {
   name: 'Login',
+  created() {
+    this.form.setFieldsValue()
+  },
   components: {CommonLayout},
   data () {
     return {
       logging: false,
       error: '',
-      form: this.$form.createForm(this)
+      form: this.$form.createForm(this),
     }
   },
 
@@ -109,7 +112,7 @@ export default {
         getRoutesConfig().then(result => {
           const routesConfig = result.data.data
           loadRoutes(routesConfig)
-          this.$router.push('/orderList')
+          this.$router.push('/newsRecord')
           this.$message.success(loginRes.message, 3)
         })
       } else {

@@ -12,6 +12,7 @@
       <span slot="action" slot-scope="text, record" class="actionbutton">
         <a-button type="primary" ghost @click="consignment(record,'update')">修改</a-button>
         <a-button type="primary" ghost  @click="consignment(record,'del')">删除</a-button>
+        <a-button type="primary" ghost  @click="consignment(record,'updateIntegral')">修改积分</a-button>
       </span>
     </a-table>
     <a-modal v-model=modal.modalShow  :title=modal.title >
@@ -48,6 +49,15 @@
           </a-select>
         </a-form-item>
       </a-form>
+      <div v-show="modal.updateIntegral">
+        <a-radio-group v-model="modal.value" default-value="1" @change="onChange" style="margin-bottom: 10px">
+          <a-radio :value="1">增加</a-radio>
+          <a-radio :value="2">减少</a-radio>
+          <a-radio :value="3">查看记录</a-radio>
+        </a-radio-group><br/>
+        <a-input-number v-if="modal.inputnumber===true" id="inputNumber" v-model="modal.input" :min="0" :max="9999" placeholder="请输入积分" style="width: 60%"/>
+        <a-table v-else :columns="columns1" :data-source="data1"></a-table>
+      </div>
     </a-modal>
   </a-card>
 </template>
@@ -59,7 +69,7 @@ export default {
 
   data() {
     return {
-      modal:{modalShow:false,title:"", aform:false,del:false,text:""},
+      modal:{modalShow:false,title:"", aform:false,del:false,updateIntegral:false,text:"",value:1,input:'',inputnumber:true},
       input:{name:"",age:"",class:"",account:"",password1:"",password2:"",integral:"",team:""},
       teamList:[{id:'1',name:'战队1'},{id:'2',name:'战队2'},{id:'3',name:'战队3'},{id:'4',name:'战队4'}],
       columns : [
@@ -73,11 +83,11 @@ export default {
           dataIndex: 'account',
           key: 'account',
         },
-        {
-          title: '教师专业',
-          dataIndex: 'major',
-          key: 'major',
-        },
+        // {
+        //   title: '教师专业',
+        //   dataIndex: 'major',
+        //   key: 'major',
+        // },
         {
           title: '班级',
           key: 'class',
@@ -95,7 +105,6 @@ export default {
           scopedSlots: { customRender: 'action' },
         },
       ],
-
       data : [
         {
           key: '1111',
@@ -137,6 +146,43 @@ export default {
           class: 'C111',
           registerTime: '2020-11-02 11:19:32',
         },
+      ],
+      columns1:[
+        {
+          title:'增/减',
+          dataIndex: 'add',
+          key: 'add',
+        },
+        {
+          title:'积分',
+          dataIndex: 'integral',
+          key: 'integral',
+        },
+        {
+          title:'修改时间',
+          dataIndex: 'updateTime',
+          key: 'updateTime',
+        },
+      ],
+      data1:[
+        {
+          key: '1111',
+          add:'增加',
+          integral: '15',
+          updateTime: '2020-10-30 10:32:56',
+        },
+        {
+          key: '222',
+          add:'减少',
+          integral: '20',
+          updateTime: '2020-10-30 13:32:56',
+        },
+        {
+          key: '333',
+          add:'增加',
+          integral: '19',
+          updateTime: '2020-10-30 12:32:56',
+        }
       ]
     }
   },
@@ -145,14 +191,26 @@ export default {
     consignment(record, type){
       if("add"===type){
         this.input={name:"",age:"",class:"",account:"",password1:"",password2:"",integral:"",team:""}
-        this.modal={modalShow:true,title:"新建账号", aform:true,del:false,text:""}
+        this.modal={modalShow:true,title:"新建账号", aform:true,del:false,updateIntegral:false,text:"",value:1,input:'',inputnumber:true}
       }
       if("update"===type){
-        this.input={name:record.name,age:record.age,class:record.class,account:record.account,password1:"",password2:"",integral:"",team:""}
-        this.modal={modalShow:true,title:"修改账号", aform:true,del:false,text:""}
+        this.input={name:record.name,age:record.age,class:record.class,account:record.account,password1:"",password2:"",integral:"",team:"",value:1,input:'',inputnumber:true}
+        this.modal={modalShow:true,title:"修改账号", aform:true,del:false,updateIntegral:false,text:""}
       }
       if("del"===type){
-        this.modal={modalShow:true,title:"删除", aform:false,del:true,text:record.account}
+        this.modal={modalShow:true,title:"删除", aform:false,del:true,updateIntegral:false,text:record.account,value:1,input:'',inputnumber:true}
+      }
+      if('updateIntegral'===type){
+        this.modal={modalShow:true,title:"修改积分", aform:false,del:false,updateIntegral:true,text:record.account,value:1,input:'',inputnumber:true}
+      }
+
+    },
+    onChange(e) {
+      console.log('radio checked', e.target.value);
+      if(3===e.target.value){
+        this.modal.inputnumber=false
+      }else {
+        this.modal.inputnumber=true
       }
 
     },

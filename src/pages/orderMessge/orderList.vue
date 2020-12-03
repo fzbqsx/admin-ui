@@ -4,7 +4,7 @@
     <a-table :columns="columns" :data-source="data">
       <span slot="status" slot-scope="text, record">
         <p v-if="record.status==='1'">
-          未付款
+          未兑换
         </p>
         <p v-if="record.status==='2'">
           未发货
@@ -12,19 +12,19 @@
         <p v-if="record.status==='3'">
           已发货
         </p>
-        <p v-if="record.status==='4'">
-          已完成
-        </p>
-        <p v-if="record.status==='5'" style="color: #3295FA">
-          已评价
-        </p>
+<!--        <p v-if="record.status==='4'">-->
+<!--          已完成-->
+<!--        </p>-->
+<!--        <p v-if="record.status==='5'" style="color: #3295FA">-->
+<!--          已评价-->
+<!--        </p>-->
       </span>
       <span slot="action" slot-scope="text, record">
 <!--        <a-button v-if="record.status==='1'" type="primary" ghost>查看详情</a-button>-->
         <a-button v-if="record.status==='2'" type="primary" ghost @click="consignment(record)">发货</a-button>
-        <a-button v-if="record.status==='3'" type="primary" ghost @click="toLogistics">查看物流</a-button>
-        <a-button v-if="record.status==='4'" type="primary" ghost @click="toLogistics">查看详情</a-button>
-        <a-button v-if="record.status==='5'" type="primary" ghost @click="toLogistics">查看详情</a-button>
+        <a-button v-if="record.status==='3'" type="primary" ghost @click="consignment(record)">查看详情</a-button>
+<!--        <a-button v-if="record.status==='4'" type="primary" ghost @click="toLogistics">查看详情</a-button>-->
+<!--        <a-button v-if="record.status==='5'" type="primary" ghost @click="toLogistics">查看详情</a-button>-->
       </span>
     </a-table>
     <a-modal v-model=modal.modalShow  :title=modal.title >
@@ -41,8 +41,25 @@
         <a-form-item label="发货地址">
           <a-input placeholder="请输入发货地址"/>
         </a-form-item>
+<!--        <a-form-item label="收货地址">-->
+<!--          <a-input placeholder="请输入收货地址"/>-->
+<!--        </a-form-item>-->
+      </a-form>
+      <a-form v-show="modal.physical" :label-col="{ span: 5 }" :wrapper-col="{ span: 12 }">
+        <a-form-item label="运单编号" >
+          <p>123456789</p>
+        </a-form-item>
+        <a-form-item label="快递公司">
+          <p>韵达快递</p>
+        </a-form-item>
+        <a-form-item label="客服电话">
+          <p>123456</p>
+        </a-form-item>
+        <a-form-item label="发货地址">
+          <p>浙江省温州市鹿城区世贸中心</p>
+        </a-form-item>
         <a-form-item label="收货地址">
-          <a-input placeholder="请输入收货地址"/>
+          <p>浙江省温州市鹿城区世贸中心</p>
         </a-form-item>
       </a-form>
     </a-modal>
@@ -54,7 +71,7 @@ export default {
   name: "orderList",
   data() {
     return {
-      modal:{modalShow:false,title:"", aform:false},
+      modal:{modalShow:false,physical:false,title:"", aform:false},
       columns : [
         {
           title:'订单编号',
@@ -84,7 +101,7 @@ export default {
           scopedSlots: { customRender: 'status' },
           filters: [
             {
-              text: '未付款',
+              text: '未兑换',
               value: '1',
             },
             {
@@ -134,14 +151,14 @@ export default {
           orderTitle: '订单444',
           userName: 'aa44',
           createTime: '2020-11-01 16:41:05',
-          status: '4'
+          status: '2'
         },
         {
           key: '555',
           orderTitle: '订单555',
           userName: 'aa55',
           createTime: '2020-11-02 11:19:32',
-          status: '5'
+          status: '3'
         },
       ]
     };
@@ -152,10 +169,15 @@ export default {
       if("2"===record.status){
         this.modal.title="完善物流信息"
         this.modal.aform=true
+        this.modal.physical=false
+      }else{
+        this.modal.title="查看物流信息"
+        this.modal.aform=false
+        this.modal.physical=true
       }
     },
     toLogistics(){
-      this.$router.replace( '/logistics')
+      // this.$router.replace( '/logistics')
     }
   },
   mounted() {
@@ -165,4 +187,5 @@ export default {
 </script>
 <style scoped lang="sass">
 @import "css/orderMessage"
+
 </style>
