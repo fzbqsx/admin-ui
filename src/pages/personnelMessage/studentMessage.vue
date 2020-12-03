@@ -4,7 +4,10 @@
       <a-col :span="15">
         <h1>学生管理</h1>
       </a-col>
-      <a-col :span="7"><a-input-search placeholder="请输入" @search="onSearch" /></a-col>
+      <a-col :span="7">
+        <a-input-search placeholder="请输入" @search="onSearch" style="width: 80%"/>
+        <a-button  type="primary" @click="onSearch">搜索</a-button>
+      </a-col>
       <a-col :span="2" ><a-button  type="primary" @click="consignment('','add')"><a-icon type="plus"/>新增</a-button></a-col>
     </a-row>
 
@@ -12,7 +15,9 @@
       <span slot="action" slot-scope="text, record" class="actionbutton">
         <a-button type="primary" ghost @click="consignment(record,'update')">修改</a-button>
         <a-button type="primary" ghost  @click="consignment(record,'del')">删除</a-button>
-        <a-button type="primary" ghost  @click="consignment(record,'updateIntegral')">修改积分</a-button>
+        <a-button type="primary" ghost  @click="consignment(record,'addIntegral')">增加积分</a-button>
+        <a-button type="primary" ghost  @click="consignment(record,'cutIntegral')">减少积分</a-button>
+        <a-button type="primary" ghost  @click="consignment(record,'recordIntegral')">积分记录</a-button>
       </span>
     </a-table>
     <a-modal v-model=modal.modalShow  :title=modal.title >
@@ -50,12 +55,7 @@
         </a-form-item>
       </a-form>
       <div v-show="modal.updateIntegral">
-        <a-radio-group v-model="modal.value" default-value="1" @change="onChange" style="margin-bottom: 10px">
-          <a-radio :value="1">增加</a-radio>
-          <a-radio :value="2">减少</a-radio>
-          <a-radio :value="3">查看记录</a-radio>
-        </a-radio-group><br/>
-        <a-input-number v-if="modal.inputnumber===true" id="inputNumber" v-model="modal.input" :min="0" :max="9999" placeholder="请输入积分" style="width: 60%"/>
+        <a-input-number v-if="modal.inputnumber===true" id="inputNumber" v-model="modal.input" :min="0" :max="9999" placeholder="请输入积分" style="width: 80%"/>
         <a-table v-else :columns="columns1" :data-source="data1"></a-table>
       </div>
     </a-modal>
@@ -102,6 +102,7 @@ export default {
           title: '操作',
           key: 'action',
           align:'center',
+          width:480,
           scopedSlots: { customRender: 'action' },
         },
       ],
@@ -200,20 +201,18 @@ export default {
       if("del"===type){
         this.modal={modalShow:true,title:"删除", aform:false,del:true,updateIntegral:false,text:record.account,value:1,input:'',inputnumber:true}
       }
-      if('updateIntegral'===type){
-        this.modal={modalShow:true,title:"修改积分", aform:false,del:false,updateIntegral:true,text:record.account,value:1,input:'',inputnumber:true}
+      if('addIntegral'===type){
+        this.modal={modalShow:true,title:"增加积分", aform:false,del:false,updateIntegral:true,text:record.account,value:1,input:'',inputnumber:true}
+      }
+      if('cutIntegral'===type){
+        this.modal={modalShow:true,title:"减少积分", aform:false,del:false,updateIntegral:true,text:record.account,value:1,input:'',inputnumber:true}
+      }
+      if('recordIntegral'===type){
+        this.modal={modalShow:true,title:"积分记录", aform:false,del:false,updateIntegral:true,text:record.account,value:1,input:'',inputnumber:false}
       }
 
     },
-    onChange(e) {
-      console.log('radio checked', e.target.value);
-      if(3===e.target.value){
-        this.modal.inputnumber=false
-      }else {
-        this.modal.inputnumber=true
-      }
 
-    },
     onSearch(){
       console.log("点击搜索")
     }

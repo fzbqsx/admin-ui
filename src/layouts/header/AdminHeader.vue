@@ -5,7 +5,7 @@
         <img width="32" src="@/assets/logo.png" />
         <h1 >{{systemName}}</h1>
       </router-link>
-<!--      <a-divider v-if="isMobile" type="vertical" />-->
+      <a-divider v-if="isMobile" type="vertical" />
       <a-icon v-if="layout !== 'head' && !isMobile" class="trigger" :type="collapsed ? 'menu-unfold' : 'menu-fold'" @click="toggleCollapse"/>
       <div v-if="layout !== 'side' && !isMobile" class="admin-header-menu" :style="`width: ${menuWidth};`">
         <i-menu class="head-menu" :theme="headerTheme" mode="horizontal" :options="menuData" @select="onSelect"/>

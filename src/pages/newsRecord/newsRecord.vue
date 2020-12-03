@@ -85,7 +85,7 @@ export default {
       data : [
         {
           key: '1111',
-          title:'“保护母亲河”环保行动"生态环境调查111',
+          title:'“保护母亲河”环保行动"生态环境调查',
           initiator: '管理员11',
           releaseObject: 'C112班级',
           releaseTime: '2020-10-30 10:32:56'
