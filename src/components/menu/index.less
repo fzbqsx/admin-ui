@@ -8,28 +8,35 @@
   .logo{
     height: 64px;
     position: relative;
-    line-height: 64px;
-    padding-left: 24px;
+    //line-height: 54px;
+    padding: 4px 0 4px 20px;
     -webkit-transition: all .3s;
     transition: all .3s;
     overflow: hidden;
     background-color: @layout-trigger-background;
     &.light{
-      background-color: #fff;
+      background-color: #092F8C;
       h1{
         color: @primary-color;
       }
     }
-    h1{
+    .logo_h{
+      color: white;
+      width: 165px;
       color: @menu-dark-highlight-color;
       font-size: 20px;
-      margin: 0 0 0 12px;
+      margin: 0 0 0 10px;
       display: inline-block;
       vertical-align: middle;
+      float: right;
     }
-    img{
-      width: 32px;
+    .img{
+      float: left;
+      height: 56px;
       vertical-align: middle;
+      img{
+        height: 100%;
+      }
     }
   }
 }

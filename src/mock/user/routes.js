@@ -5,34 +5,38 @@ Mock.mock(`${process.env.VUE_APP_API_BASE_URL}/routes`, 'get', () => {
   result.code = 0
   result.data = [{
     router: 'root',
-    children: [
+    children: ['demo',
       {
-        router: 'dashboard',
-        children: ['workplace', 'analysis'],
+        router: 'parent1',
+        children: [{
+          router: 'demo',
+          name: 'demo1',
+          authority: {
+            permission: 'demo',
+            role: 'admin'
+          }
+        }],
       },
       {
-        router: 'form',
-        children: ['basicForm', 'stepForm', 'advanceForm']
+        router: 'parent2',
+        children: [{
+          router: 'demo',
+          name: 'demo2'
+        }],
       },
       {
-        router: 'basicForm',
-        name: '验权表单',
-        icon: 'file-excel',
-        authority: 'queryForm'
+        router: 'exception',
+        children: ['exp404', 'exp403', 'exp500'],
       },
       {
-        router: 'antdv',
-        path: 'antdv',
-        name: 'Ant Design Vue',
-        icon: 'ant-design',
-        link: 'https://www.antdv.com/docs/vue/introduce-cn/'
-      },
-      {
-        router: 'document',
-        path: 'document',
-        name: '使用文档',
-        icon: 'file-word',
-        link: 'https://iczer.gitee.io/vue-antd-admin-docs/'
+        router: 'demo',
+        icon: 'file-ppt',
+        path: 'auth/demo',
+        name: '验权页面',
+        authority: {
+          permission: 'form',
+          role: 'manager'
+        }
       }
     ]
   }]

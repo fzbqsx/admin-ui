@@ -1,33 +1,26 @@
 <template>
-  <a-card>
-    <a-row class="tableTitle" type="flex">
-      <a-col :span="15">
-        <h1>查看报名</h1>
-      </a-col>
-      <a-col :span="7"><a-input-search placeholder="请输入" @search="onSearch" /></a-col>
-      <a-col :span="2" ><a-button  type="primary" @click="consignment('','add')">搜索</a-button></a-col>
-    </a-row>
-
-    <a-table :columns="columns" :data-source="data">
-      <span slot="action" slot-scope="text, record" class="actionbutton">
-        <a-button type="primary" ghost @click="consignment(record,'update')">修改</a-button>
-        <a-button type="primary" ghost  @click="consignment(record,'del')">删除</a-button>
-      </span>
-    </a-table>
-
-  </a-card>
+  <div class="new-page" :style="`min-height: ${pageMinHeight}px`">
+    <div class="headBox">
+      <h1 class="headBox-left">查看报名</h1>
+      <div class="headBox-right">
+        <a-input-search class="headBox-right-item" v-model="searchInput.name" placeholder="请输入" @search="onSearch" />
+        <a-button class="headBox-right-item" type="primary" icon="search" @click="onSearch">搜索</a-button>
+      </div>
+    </div>
+    <a-table :columns="columns" :data-source="data"></a-table>
+  </div>
 </template>
 
 <script>
-
+import {mapState} from 'vuex'
 export default {
   name: "entryForm",
-
+  computed: {
+    ...mapState( 'setting', ['pageMinHeight']),
+  },
   data() {
     return {
-      modal:{modalShow:false,title:"", aform:false,del:false,text:""},
-      input:{name:"",age:"",class:"",account:"",password1:"",password2:"",integral:"",team:""},
-      teamList:[{id:'1',name:'战队1'},{id:'2',name:'战队2'},{id:'3',name:'战队3'},{id:'4',name:'战队4'}],
+      searchInput:{name:""},
       columns : [
         {
           title:'姓名',
@@ -39,11 +32,6 @@ export default {
           dataIndex: 'account',
           key: 'account',
         },
-        // {
-        //   title: '教师专业',
-        //   dataIndex: 'major',
-        //   key: 'major',
-        // },
         {
           title: '班级',
           key: 'class',
@@ -54,12 +42,6 @@ export default {
           key: 'registerTime',
           dataIndex: 'registerTime',
         },
-        // {
-        //   title: '操作',
-        //   key: 'action',
-        //   align:'center',
-        //   scopedSlots: { customRender: 'action' },
-        // },
       ],
 
       data : [
@@ -108,22 +90,8 @@ export default {
   },
 
   methods: {
-    consignment(record, type){
-      if("add"===type){
-        this.input={name:"",age:"",class:"",account:"",password1:"",password2:"",integral:"",team:""}
-        this.modal={modalShow:true,title:"新建账号", aform:true,del:false,text:""}
-      }
-      if("update"===type){
-        this.input={name:record.name,age:record.age,class:record.class,account:record.account,password1:"",password2:"",integral:"",team:""}
-        this.modal={modalShow:true,title:"修改账号", aform:true,del:false,text:""}
-      }
-      if("del"===type){
-        this.modal={modalShow:true,title:"删除", aform:false,del:true,text:record.account}
-      }
-
-    },
     onSearch(){
-      console.log("点击搜索")
+      console.log(this.searchInput.name)
     }
   },
 
@@ -134,5 +102,6 @@ export default {
 </script>
 
 <style scoped lang="sass">
-@import "css/newsRecord"
+@import "src/pages/commonality/css"
+@import "./css"
 </style>

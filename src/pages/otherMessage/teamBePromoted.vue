@@ -1,7 +1,7 @@
 <template>
-  <a-card>
-    <div class="tableTitle">
-      <h1>战队晋级设置</h1>
+  <div class="new-page" :style="`min-height: ${pageMinHeight}px`">
+    <div class="headBox">
+      <h1 class="headBox-left">战队晋级设置</h1>
     </div>
     <a-form :label-col="{ span: 5 }" :wrapper-col="{ span: 15 }">
       <a-form-item label="青铜等级" >
@@ -26,14 +26,18 @@
       </a-form-item>
     </a-form>
     <a-button type="primary" ghost @click="updateData">修改</a-button>
-  </a-card>
+  </div>
 </template>
 
 <script>
 
+import {mapState} from "vuex";
+
 export default {
   name: "teamBePromoted",
-
+  computed: {
+    ...mapState('setting', ['pageMinHeight']),
+  },
   data() {
     return {
       input:{bronze1:"0",bronze2:"200",silver1:"0",silver2:"300",gold1:"0",gold2:"500",platinum1:"0",platinum2:"800"}
@@ -53,5 +57,5 @@ export default {
 </script>
 
 <style scoped lang="sass">
-
+@import "src/pages/commonality/css"
 </style>

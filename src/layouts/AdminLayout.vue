@@ -20,11 +20,12 @@
         </div>
       </a-layout-content>
       <a-layout-footer style="padding: 0px">
-        <page-footer  />
+        <page-footer :link-list="footerLinks" :copyright="copyright" />
       </a-layout-footer>
     </a-layout>
   </a-layout>
 </template>
+
 <script>
 import AdminHeader from './header/AdminHeader'
 import PageFooter from './footer/PageFooter'
@@ -33,14 +34,14 @@ import SideMenu from '../components/menu/SideMenu'
 import Setting from '../components/setting/Setting'
 import {mapState, mapMutations, mapGetters} from 'vuex'
 
-// const minHeight = window.innerHeight - 64 - 122  PageFooter,
+// const minHeight = window.innerHeight - 64 - 122
 
 export default {
   name: 'AdminLayout',
   components: {Setting, SideMenu, Drawer, PageFooter, AdminHeader},
   data () {
     return {
-      minHeight: window.innerHeight - 64,
+      minHeight: window.innerHeight - 74 ,
       collapsed: false,
       showSetting: false,
       drawerOpen: false
@@ -65,7 +66,7 @@ export default {
     }
   },
   computed: {
-    ...mapState('setting', ['isMobile', 'theme', 'layout', 'fixedHeader', 'fixedSideBar',
+    ...mapState('setting', ['isMobile', 'theme', 'layout', 'footerLinks', 'copyright', 'fixedHeader', 'fixedSideBar',
       'fixedTabs', 'hideSetting', 'multiPage']),
     ...mapGetters('setting', ['firstMenu', 'subMenu', 'menuData']),
     sideMenuWidth() {

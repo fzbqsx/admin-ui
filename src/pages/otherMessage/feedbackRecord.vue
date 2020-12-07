@@ -1,7 +1,7 @@
 <template>
-  <a-card>
-    <div class="tableTitle">
-      <h1>反馈记录</h1>
+  <div class="new-page" :style="`min-height: ${pageMinHeight}px`">
+    <div class="headBox">
+      <h1 class="headBox-left">反馈记录</h1>
     </div>
     <a-table :columns="columns" :data-source="data">
       <span class="masterImg" slot="studentInfo">
@@ -34,14 +34,18 @@
         </a-form-item>
       </a-form>
     </a-modal>
-  </a-card>
+  </div>
 </template>
 
 <script>
 
+import {mapState} from "vuex";
+
 export default {
   name: "feedbackRecord",
-
+  computed: {
+    ...mapState('setting', ['pageMinHeight']),
+  },
   data() {
     return {
       modal:{modalShow:false,title:"", aform:false,text:""},
@@ -116,5 +120,7 @@ export default {
 </script>
 
 <style scoped lang="sass">
+@import "src/pages/commonality/css"
 @import "css/feedbackRecord"
+
 </style>

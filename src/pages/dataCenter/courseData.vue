@@ -1,5 +1,5 @@
 <template>
-  <a-card>
+  <div class="new-page" :style="`min-height: ${pageMinHeight}px`">
     <a-tabs default-active-key="1" @change="callback">
       <a-tab-pane key="1" tab="课程查询">
         <a-table :columns="courseColumns" :data-source="courseData">
@@ -29,7 +29,6 @@
         <a-col v-if="tabsShow.input===true && tabsShow.button===false"   span="24"><a-input-search  placeholder="请输入" @search="onSearch" /> </a-col>
         <a-col v-if="tabsShow.button===true" span="8" style="text-align: center"> <a-button type="primary" @click="consignment('','viewDetailsCourse')"><a-icon type="plus"/>新建课程</a-button></a-col>
       </a-row>
-
     </a-tabs>
     <a-modal v-model=modal.modalShow width="60%" :title=modal.title >
       <div v-show="modal.course">
@@ -230,14 +229,17 @@
         <h1>修改月度课程表</h1>
       </div>
     </a-modal>
-  </a-card>
+  </div>
 </template>
 
 <script>
 import 'moment/locale/zh-cn'
+import {mapState} from "vuex";
 export default {
   name: "courseData",
-
+  computed: {
+    ...mapState('setting', ['pageMinHeight']),
+  },
   data() {
     return {
       tabsShow:{input:false,button:false},
@@ -445,5 +447,6 @@ export default {
 </script>
 
 <style scoped lang="sass">
+@import "src/pages/commonality/css"
 //@import "css/courseData"
 </style>

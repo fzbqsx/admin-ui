@@ -1,9 +1,13 @@
 <template>
-  <a-card>
-    <div class="tableTitle">
-      <h1>商品管理</h1>
-      <a-button  type="primary" @click="clickButton('','add')"><a-icon type="plus"/>新增</a-button>
+  <div class="new-page" :style="`min-height: ${pageMinHeight}px`">
+    <div class="headBox">
+      <h1 class="headBox-left">商品管理</h1>
+      <div class="headBox-right">
+        <a-input-search class="headBox-right-item" v-model="searchInput.name" placeholder="请输入" @search="onSearch" />
+        <a-button  type="primary" @click="clickButton('','add')"><a-icon type="plus"/>新增</a-button>
+      </div>
     </div>
+
     <a-table :columns="columns" :data-source="data">
       <span class="masterImg" slot="masterImg" >
         <img src='../../assets/masterImg/图像 2.png' />
@@ -13,7 +17,7 @@
         <a-button type="primary" ghost  @click="clickButton(record,'del')">删除</a-button>
       </span>
     </a-table>
-    <a-modal v-model=modal.modalShow  :title=modal.title @ok="handleOk" @cancel="handleCancel">
+    <a-modal v-model=modal.modalShow  :title=modal.title @ok="handleOk" @cancel="handleCancel" width="60%">
       <div v-if="modal.del" class="delectModal">
         <p>是否确定删除（<span >{{modal.text}}</span>）商品？</p>
       </div>
@@ -44,24 +48,35 @@
           </a-upload>
         </a-form-model-item>
         <a-form-model-item label="详情页" ref="commodityDetails" prop="commodityDetails" >
-<!--          <div id="editor"></div>-->
-          <a-input v-model="form.commodityDetails" placeholder="请输入详情页" @blur="() => { $refs.commodityDetails.onFieldBlur(); }" />
+          <quill-editor v-model="form.commodityDetails" ref="myQuillEditor" @blur="() => { $refs.commodityDetails.onFieldBlur(); }"></quill-editor>
         </a-form-model-item>
         <a-form-model-item label="所需积分" ref="integralPrice" prop="integralPrice">
           <a-input-number style="width: 295px" v-model="form.integralPrice" :min="0" :max="999999" placeholder="请输入所需积分" @blur="() => { $refs.integralPrice.onFieldBlur(); }"/>
         </a-form-model-item>
       </a-form-model>
     </a-modal>
-  </a-card>
+  </div>
 </template>
 
 <script>
+import { quillEditor } from "vue-quill-editor"; //调用编辑器
+import 'quill/dist/quill.core.css';
+import 'quill/dist/quill.snow.css';
+import 'quill/dist/quill.bubble.css';
+import {mapState} from "vuex";
+
 export default {
   name: "commodityList",
-  
+  components: {
+    quillEditor
+  },
+  computed: {
+    ...mapState('setting', ['pageMinHeight']),
+  },
   data(){
 
     return {
+      searchInput:{name:""},
       categoryNameList:[{id:'1',name:'生活用品'},{id:'2',name:'学习用品'},{id:'3',name:'果蔬类'},{id:'4',name:'生鲜类'}],
       modal:{modalShow:false,title:"", del:false,text:""},
       form:{title:"",categoryName:"", commodityDetails:"",integralPrice:"0",imageUrl:"",loading:false},
@@ -155,6 +170,9 @@ export default {
         this.handleCancel()
       }
     },
+    onSearch(){
+      console.log(this.searchInput.name)
+    },
     handleCancel(){
       if(this.modal.del===false){
         this.$refs.ruleForm.resetFields();
@@ -215,16 +233,13 @@ export default {
 .ant-form-item-required::before{
   display: none;
 }
+.ql-editor {
+  min-height: 300px;
+  max-height: 600px;
+}
 </style>
 <style scoped lang="sass">
-@import "../../pages/commonality/css/unified"
+@import "src/pages/commonality/css"
+@import "css"
 
-.ant-upload-text
-  color: #FFFFFF
-  font-size: 35px
-
-.masterImg
-  img
-    width: 60px
-    height: 60px
 </style>

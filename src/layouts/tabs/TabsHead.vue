@@ -63,7 +63,7 @@
       this.affixed = this.fixedTabs
     },
     computed: {
-      ...mapState('setting', ['layout', 'pageWidth', 'fixedHeader', 'fixedTabs']),
+      ...mapState('setting', ['layout', 'pageWidth', 'fixedHeader', 'fixedTabs', 'customTitles']),
       lockTitle() {
         return this.$t(this.fixedTabs ? 'unlock' : 'lock')
       }
@@ -95,7 +95,8 @@
         this.$emit('contextmenu', pageKey, e)
       },
       pageName(page) {
-        return this.$t(getI18nKey(page.keyPath))
+        const custom = this.customTitles.find(item => item.path === page.fullPath)
+        return (custom && custom.title) || page.title || this.$t(getI18nKey(page.keyPath))
       }
     }
   }
@@ -115,7 +116,7 @@
     .icon-close{
       font-size: 12px;
       margin-left: 6px;
-      margin-right: -4px;
+      margin-right: -4px !important;
       color: @text-color-second;
       &:hover{
         color: @text-color;

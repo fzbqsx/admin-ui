@@ -1,5 +1,5 @@
 <template>
-  <a-card>
+  <div class="new-page" :style="`min-height: ${pageMinHeight}px`">
     <div class="tableTitle">
       <h1>学生作业数据</h1>
     </div>
@@ -28,14 +28,18 @@
       <a-table :columns="courseColumns" :data-source="courseData">
       </a-table>
     </a-modal>
-  </a-card>
+  </div>
 </template>
 
 <script>
 
+import {mapState} from "vuex";
+
 export default {
   name: "JobData",
-
+  computed: {
+    ...mapState('setting', ['pageMinHeight']),
+  },
   data() {
     return {
       modal:{modalShow:false,title:"", },
@@ -128,7 +132,7 @@ export default {
 </script>
 
 <style scoped lang="sass">
-@import "../../pages/commonality/css/unified"
+@import "src/pages/commonality/css"
 .model
   form:nth-child(2)
     margin-bottom: 25px

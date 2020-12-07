@@ -1,9 +1,12 @@
 <template>
-  <a-card>
-    <div class="tableTitle">
-        <h1>课外活动</h1>
+  <div class="new-page" :style="`min-height: ${pageMinHeight}px`">
+    <div class="headBox">
+      <h1 class="headBox-left">课外活动</h1>
+      <div class="headBox-right">
         <a-button  type="primary" @click="clickButton('','add')"><a-icon type="plus"/>新建活动</a-button>
+      </div>
     </div>
+
     <a-table :columns="columns" :data-source="data">
       <span slot="action" slot-scope="text, record" class="actionbutton">
         <a-button type="primary" ghost @click="clickButton(record,'update')">修改</a-button>
@@ -22,7 +25,8 @@
           <a-input v-model="form.actionType" placeholder="请输入类型"/>
         </a-form-item>
         <a-form-item label="详情页">
-          <a-textarea v-model="form.details" placeholder="请输入详情信息" :auto-size="{ minRows: 3, maxRows: 15 }"/>
+          <quill-editor v-model="form.details" ref="myQuillEditor" ></quill-editor>
+<!--          <a-textarea v-model="form.details" placeholder="请输入详情信息" :auto-size="{ minRows: 3, maxRows: 15 }"/>-->
         </a-form-item>
         <a-form-item label="封面上传">
           <a-upload
@@ -39,18 +43,6 @@
             </div>
           </a-upload>
         </a-form-item>
-<!--        <a-form-item label="报名时间">-->
-<!--          <a-range-picker show-time v-model="form.applyTime">-->
-<!--            <template slot="renderExtraFooter">-->
-<!--            </template>-->
-<!--          </a-range-picker>-->
-<!--        </a-form-item>-->
-<!--        <a-form-item label="活动时间" >-->
-<!--          <a-range-picker show-time v-model="form.actionTime">-->
-<!--            <template slot="renderExtraFooter">-->
-<!--            </template>-->
-<!--          </a-range-picker>-->
-<!--        </a-form-item>-->
         <a-form-item label="报名条件">
           <a-select
               mode="tags"
@@ -67,14 +59,24 @@
         </a-form-item>
       </a-form>
     </a-modal>
-  </a-card>
+  </div>
 </template>
 
 <script>
+import { quillEditor } from "vue-quill-editor"; //调用编辑器
+import 'quill/dist/quill.core.css';
+import 'quill/dist/quill.snow.css';
+import 'quill/dist/quill.bubble.css';
+import {mapState} from "vuex";
 
 export default {
   name: "extracurricularActivities",
-
+  components: {
+    quillEditor
+  },
+  computed: {
+    ...mapState('setting', ['pageMinHeight']),
+  },
   data() {
     return {
       modal:{modalShow:false,title:"", del:false,text:""},
@@ -225,12 +227,18 @@ export default {
   }
 }
 </script>
-
+<style>
+.ql-editor {
+  min-height: 300px;
+  max-height: 600px;
+}
+</style>
 <style scoped lang="sass">
-
-@import "../../pages/commonality/css/unified"
+@import "src/pages/commonality/css"
 
 .ant-upload-text
   color: #FFFFFF
   font-size: 35px
+
+
 </style>

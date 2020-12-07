@@ -249,6 +249,7 @@ export default {
       return {
         keyPath: route.matched[route.matched.length - 1].path,
         fullPath: route.fullPath, loading: false,
+        title: route.meta && route.meta.page && route.meta.page.title,
         unclose: route.meta && route.meta.page && (route.meta.page.closable === false),
       }
     },
@@ -260,7 +261,8 @@ export default {
       const page = this.pageList.find(item => item.fullPath === route.fullPath)
       page.unclose = route.meta && route.meta.page && (route.meta.page.closable === false)
       if (!page._init_) {
-        page.cachedKey = this.$refs.tabContent.$vnode.key
+        const vnode = this.$refs.tabContent.$vnode
+        page.cachedKey = vnode.key + vnode.componentOptions.Ctor.cid
         page._init_ = true
       }
     },

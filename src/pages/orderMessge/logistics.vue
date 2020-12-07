@@ -1,6 +1,8 @@
 <template>
-    <a-card>
-      <h1>查看物流</h1>
+    <div class="new-page" :style="`min-height: ${pageMinHeight}px`">
+      <div class="headBox">
+        <h1 class="headBox-left">查看物流</h1>
+      </div>
       <div>
         <p style="display: flex;justify-content: space-between;width: 60% ">
           <span>
@@ -64,14 +66,16 @@
 
         </a-steps>
       </div>
-    </a-card>
+    </div>
 </template>
 
 <script>
-
+import {mapState} from 'vuex'
 export default {
   name: "logistics",
-
+  computed: {
+    ...mapState( 'setting', ['pageMinHeight']),
+  },
   data(){
     return {
         
@@ -94,5 +98,6 @@ export default {
 }
 </style>
 <style scoped lang="sass">
+@import "src/pages/commonality/css"
 @import "css/logistics"
 </style>

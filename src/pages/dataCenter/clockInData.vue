@@ -1,5 +1,5 @@
 <template>
-  <a-card>
+  <div class="new-page" :style="`min-height: ${pageMinHeight}px`">
     <div class="tableTitle">
       <h1>打卡数据</h1>
     </div>
@@ -28,14 +28,18 @@
       <a-table :columns="clockIncolumns" :data-source="clockIndata">
       </a-table>
     </a-modal>
-  </a-card>
+  </div>
 </template>
 
 <script>
 
+import {mapState} from "vuex";
+
 export default {
   name: "clockInData",
-
+  computed: {
+    ...mapState('setting', ['pageMinHeight']),
+  },
   data() {
     return {
       modal:{modalShow:false,title:"" },
@@ -148,7 +152,7 @@ export default {
 </script>
 
 <style scoped lang="sass">
-@import "../../pages/commonality/css/unified"
+@import "src/pages/commonality/css"
 .model
   form:nth-child(2)
     margin-bottom: 25px

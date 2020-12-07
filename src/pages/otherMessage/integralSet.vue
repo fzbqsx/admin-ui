@@ -1,7 +1,7 @@
 <template>
-  <a-card>
-    <div class="tableTitle">
-      <h1>积分设置</h1>
+  <div class="new-page" :style="`min-height: ${pageMinHeight}px`">
+    <div class="headBox">
+      <h1 class="headBox-left">积分设置</h1>
     </div>
     <a-form :label-col="{ span: 5 }" :wrapper-col="{ span: 15 }">
       <a-form-item label="打卡积分" >
@@ -27,14 +27,18 @@
       </a-form-item>
     </a-form>
     <a-button type="primary" ghost @click="updateData">修改</a-button>
-  </a-card>
+  </div>
 </template>
 
 <script>
 
+import {mapState} from "vuex";
+
 export default {
   name: "integralSet",
-
+  computed: {
+    ...mapState('setting', ['pageMinHeight']),
+  },
   data() {
     return {
       input:{clockIn:"5",action:"5",job:"5",detail:""}
@@ -54,5 +58,5 @@ export default {
 </script>
 
 <style scoped lang="sass">
-
+@import "src/pages/commonality/css"
 </style>

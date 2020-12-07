@@ -1,12 +1,12 @@
 <template>
-  <a-card>
-    <a-row class="tableTitle" type="flex">
-      <a-col :span="15">
-        <h1>教师管理</h1>
-      </a-col>
-      <a-col :span="7"><a-input-search placeholder="请输入" @search="onSearch" /></a-col>
-      <a-col :span="2" ><a-button  type="primary" @click="consignment('','add')"><a-icon type="plus"/>新增</a-button></a-col>
-    </a-row>
+  <div class="new-page" :style="`min-height: ${pageMinHeight}px`">
+    <div class="headBox">
+      <h1 class="headBox-left">教师管理</h1>
+      <div class="headBox-right">
+        <a-input-search class="headBox-right-item" v-model="searchInput.name" placeholder="请输入" @search="onSearch" />
+        <a-button  type="primary" @click="consignment('','add')"><a-icon type="plus"/>新增</a-button>
+      </div>
+    </div>
 
     <a-table :columns="columns" :data-source="data">
       <span slot="action" slot-scope="text, record" class="actionbutton">
@@ -39,16 +39,21 @@
         </a-form-item>
       </a-form>
     </a-modal>
-  </a-card>
+  </div>
 </template>
 
 <script>
+import {mapState} from "vuex";
+
 
 export default {
   name: "teacherMessage",
-
+  computed: {
+    ...mapState('setting', ['pageMinHeight']),
+  },
   data() {
     return {
+      searchInput:{name:""},
       modal:{modalShow:false,title:"", aform:false,del:false,text:""},
       input:{name:"",age:"",class:"",account:"",password1:"",password2:""},
       columns : [
@@ -156,5 +161,6 @@ export default {
 }
 </script>
 <style scoped lang="sass">
+@import "src/pages/commonality/css"
 @import "css/teacherMessage"
 </style>

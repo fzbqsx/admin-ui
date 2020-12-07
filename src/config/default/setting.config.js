@@ -6,7 +6,7 @@ module.exports = {
     mode: 'dark',                       //主题模式 可选 dark、 light 和 night
     success: '#52c41a',                 //成功色
     warning: '#faad14',                 //警告色
-    error: '#f5222d',                   //错误色
+    error: '#f5222f',                   //错误色
   },
   layout: 'side',                       //导航布局，可选 side 和 head，分别为侧边导航和顶部导航
   fixedHeader: false,                   //固定头部状态栏，true:固定，false:不固定
@@ -16,8 +16,8 @@ module.exports = {
   weekMode: false,                      //色弱模式，true:开启，false:不开启
   multiPage: false,                     //多页签模式，true:开启，false:不开启
   hideSetting: false,                   //隐藏设置抽屉，true:隐藏，false:不隐藏
-  systemName: '积分小程序后台管理',         //系统名称
-  copyright: '2018 TSMP',     //copyright
+  systemName: '开创信息项目化积分管理平台',         //系统名称
+  copyright: '2018 ICZER 工作室出品',     //copyright
   asyncRoutes: false,                   //异步加载路由，true:开启，false:不开启
   showPageTitle: false,                  //是否显示页面标题（PageLayout 布局中的页面标题），true:显示，false:不显示
   filterMenu: true,                    //根据权限过滤菜单，true:过滤，false:不过滤

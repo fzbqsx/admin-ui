@@ -1,26 +1,29 @@
 <template>
-  <a-card class="orderCard">
-    <h1>订单管理</h1>
+  <div class="new-page" :style="`min-height: ${pageMinHeight}px`">
+    <div class="headBox">
+      <h1 class="headBox-left">订单管理</h1>
+    </div>
     <a-table :columns="columns" :data-source="data">
       <span slot="status" slot-scope="text, record">
         <p v-if="record.status==='1'">未兑换</p>
         <p v-if="record.status==='2'">未发货</p>
         <p v-if="record.status==='3'">已发货</p>
-<!--        <p v-if="record.status==='4'">已完成</p>-->
-<!--        <p v-if="record.status==='5'" style="color: #3295FA">已评价</p>-->
       </span>
-
-      <div slot="address" slot-scope="text" class="tableSpan" >
-          {{text}}<br/>
-          <a v-if="modal.operationText===true" style="float: right" @click="operation">展开</a>
-          <a v-if="modal.operationText===false" style="float: right" @click="operation">收起</a>
-      </div>
       <a-tooltip placement="top" slot="orderTitle" slot-scope="text, record" class="tooltip">
         <template #title>
           {{record.orderTitle}}
         </template>
         <p>{{record.orderTitle}}</p>
       </a-tooltip>
+      <Child slot="address" slot-scope="text, record" :address="record.address">
+
+      </Child>
+<!--      <a-tooltip placement="top" slot="address"  slot-scope="text, record"  :mouseLeaveDelay="0.5" class="tooltip">-->
+<!--        <template #title>-->
+<!--          {{record.address}}-->
+<!--        </template>-->
+<!--        <p>{{record.address}}</p>-->
+<!--      </a-tooltip>-->
 
       <span slot="action" slot-scope="text, record">
         <a-button v-if="record.status==='2'" type="primary" ghost @click="consignment(record)">发货</a-button>
@@ -60,15 +63,22 @@
         </a-form-item>
       </a-form>
     </a-modal>
-  </a-card>
+  </div>
 </template>
 
 <script>
+import {mapState} from 'vuex'
+import Child from "@/pages/orderMessge/Child";
 export default {
   name: "orderList",
+  components: {Child},
+  computed: {
+    ...mapState( 'setting', ['pageMinHeight']),
+  },
   data() {
     return {
       modal:{modalShow:false,physical:false,title:"", aform:false,operationText:true},
+      address:"",
       columns : [
         {
           title:'订单编号',
@@ -97,8 +107,6 @@ export default {
           title: '收件人地址',
           dataIndex: 'address',
           key: 'address',
-          // ellipsis: true,
-          // width:170,
           scopedSlots: { customRender: 'address' },
         },
         {
@@ -227,6 +235,7 @@ export default {
 }
 </script>
 <style scoped lang="sass">
+@import "src/pages/commonality/css"
 @import "css/orderMessage"
 
 </style>

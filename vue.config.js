@@ -58,12 +58,12 @@ module.exports = {
       hints: false
     }
     config.plugins.push(
-        new ThemeColorReplacer({
-          fileName: 'css/theme-colors-[contenthash:8].css',
-          matchColors: getThemeColors(),
-          injectCss: true,
-          resolveCss
-        })
+      new ThemeColorReplacer({
+        fileName: 'css/theme-colors-[contenthash:8].css',
+        matchColors: getThemeColors(),
+        injectCss: true,
+        resolveCss
+      })
     )
     // Ignore all locale files of moment.js
     config.plugins.push(new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/))
@@ -86,18 +86,18 @@ module.exports = {
     // 生产环境下关闭css压缩的 colormin 项，因为此项优化与主题色替换功能冲突
     if (isProd) {
       config.plugin('optimize-css')
-          .tap(args => {
+        .tap(args => {
             args[0].cssnanoOptions.preset[1].colormin = false
-            return args
-          })
+          return args
+        })
     }
     // 生产环境下使用CDN
     if (isProd) {
       config.plugin('html')
-          .tap(args => {
-            args[0].cdn = assetsCDN
-            return args
-          })
+        .tap(args => {
+          args[0].cdn = assetsCDN
+        return args
+      })
     }
   },
   css: {
@@ -110,7 +110,7 @@ module.exports = {
       }
     }
   },
-  publicPath: './',
+  publicPath: isProd ? '/vue-antd-admin/' : '/',
   outputDir: 'dist',
   assetsDir: 'static',
   productionSourceMap: false

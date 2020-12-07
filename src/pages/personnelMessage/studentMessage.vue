@@ -1,15 +1,13 @@
 <template>
-  <a-card>
-    <a-row class="tableTitle" type="flex">
-      <a-col :span="15">
-        <h1>学生管理</h1>
-      </a-col>
-      <a-col :span="7">
-        <a-input-search placeholder="请输入" @search="onSearch" style="width: 80%"/>
+  <div class="new-page" :style="`min-height: ${pageMinHeight}px`">
+    <div class="headBox">
+      <h1 class="headBox-left">学生管理</h1>
+      <div class="headBox-right">
+        <a-input-search class="headBox-right-item" v-model="searchInput.name" placeholder="请输入" @search="onSearch" />
         <a-button  type="primary" @click="onSearch">搜索</a-button>
-      </a-col>
-      <a-col :span="2" ><a-button  type="primary" @click="consignment('','add')"><a-icon type="plus"/>新增</a-button></a-col>
-    </a-row>
+        <a-button  type="primary" @click="consignment('','add')"><a-icon type="plus"/>新增</a-button>
+      </div>
+    </div>
 
     <a-table :columns="columns" :data-source="data">
       <span slot="action" slot-scope="text, record" class="actionbutton">
@@ -59,16 +57,21 @@
         <a-table v-else :columns="columns1" :data-source="data1"></a-table>
       </div>
     </a-modal>
-  </a-card>
+  </div>
 </template>
 
 <script>
 
+import {mapState} from "vuex";
+
 export default {
   name: "studentMessage",
-
+  computed: {
+    ...mapState('setting', ['pageMinHeight']),
+  },
   data() {
     return {
+      searchInput:{name:""},
       modal:{modalShow:false,title:"", aform:false,del:false,updateIntegral:false,text:"",value:1,input:'',inputnumber:true},
       input:{name:"",age:"",class:"",account:"",password1:"",password2:"",integral:"",team:""},
       teamList:[{id:'1',name:'战队1'},{id:'2',name:'战队2'},{id:'3',name:'战队3'},{id:'4',name:'战队4'}],
@@ -225,5 +228,15 @@ export default {
 </script>
 
 <style scoped lang="sass">
-@import "css/teacherMessage"
+@import "src/pages/commonality/css"
+.headBox-right
+  width: 30%
+  display: flex
+  justify-content: space-between
+  &-item:nth-child(1)
+    width: 65%
+  @media screen and (max-width: 1350px)
+    width: 60%
+  @media screen and (max-width: 1000px)
+    width: 70%
 </style>

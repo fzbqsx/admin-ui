@@ -1,13 +1,13 @@
 <template>
-  <a-card>
-    <div class="tableTitle">
-      <h1>群发记录</h1>
-      <a-button  type="primary" @click="consignment('','add')"><a-icon type="plus"/>添加群发</a-button>
+  <div class="new-page" :style="`min-height: ${pageMinHeight}px`">
+    <div class="headBox">
+      <h1 class="headBox-left">群发记录</h1>
+      <div class="headBox-right">
+        <a-button type="primary" @click="consignment('','add')"><a-icon type="plus"/>添加群发</a-button>
+      </div>
     </div>
     <a-table :columns="columns" :data-source="data">
-      <a slot="entryForm" slot-scope="text, record" @click="consignment(record,'look')" class="actionbutton">
-        查看
-      </a>
+      <a slot="entryForm" slot-scope="text, record" @click="consignment(record,'look')">查看</a>
       <span slot="action" slot-scope="text, record" class="actionbutton">
         <a-button type="primary" ghost @click="consignment(record,'update')">修改</a-button>
         <a-button type="primary" ghost  @click="consignment(record,'del')">删除</a-button>
@@ -19,15 +19,15 @@
       </div>
       <a-form v-show="modal.aform" :label-col="{ span: 5 }" :wrapper-col="{ span: 15 }">
         <a-form-item label="编辑标题" >
-          <a-textarea v-model="input.details" placeholder="请输入标题" :auto-size="{ minRows: 3, maxRows: 15 }"/>
+          <a-textarea v-model="input.title" placeholder="请输入标题" :auto-size="{ minRows: 3, maxRows: 15 }"/>
         </a-form-item>
         <a-form-item label="发布对象">
           <a-select
               mode="tags"
               size="large"
-              placeholder="Please select"
-              :default-value="['a1', 'b2']"
-              style="width: 200px"
+              placeholder="请选择班级"
+              v-model="input.releaseObject"
+              style="width: 300px"
           >
             <a-select-option v-for="i in 25" :key="(i + 9).toString(36) + i">
               {{ (i + 9).toString(36) + i }}
@@ -36,18 +36,20 @@
         </a-form-item>
       </a-form>
     </a-modal>
-  </a-card>
+  </div>
 </template>
 
 <script>
-
+import {mapState} from 'vuex'
 export default {
   name: "newsRecord",
-
+  computed: {
+    ...mapState( 'setting', ['pageMinHeight']),
+  },
   data() {
     return {
       modal:{modalShow:false,title:"", aform:false,del:false,text:""},
-      input:{title:"",releaseObject:""},
+      input:{title:"",releaseObject:[]},
       columns : [
         {
           title:'标题',
@@ -72,12 +74,14 @@ export default {
         {
           title: '查看报名',
           key: 'entryForm',
+          align:'center',
           scopedSlots: { customRender: 'entryForm' },
         },
         {
           title: '操作',
           key: 'action',
           align:'center',
+          // width:180,
           scopedSlots: { customRender: 'action' },
         },
       ],
@@ -119,7 +123,7 @@ export default {
 
     consignment(record, type){
       if("add"===type){
-        this.input={title:"",releaseObject:""};
+        this.input={title:"",releaseObject:[]};
         this.modal={modalShow:true,title:"添加群发", aform:true,del:false,text:""}
       }
       if("update"===type){
@@ -143,5 +147,5 @@ export default {
 </script>
 
 <style scoped lang="sass">
-@import "css/newsRecord"
+@import "src/pages/commonality/css"
 </style>

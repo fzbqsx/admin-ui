@@ -8,10 +8,10 @@ module.exports = {
     error: '#f5222d'
   },
   multiPage: true,
+  // asyncRoutes: true,
   animate: {
     disabled: false,
     name: 'lightSpeed',
     direction: 'left'
   }
 }
-

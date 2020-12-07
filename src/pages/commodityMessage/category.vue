@@ -1,8 +1,11 @@
 <template>
-  <a-card>
-    <div class="tableTitle">
-      <h1>类目管理</h1>
-      <a-button type="primary" @click="clickButton('','add')"><a-icon type="plus"/>新增</a-button>
+  <div class="new-page" :style="`min-height: ${pageMinHeight}px`">
+    <div class="headBox">
+      <h1 class="headBox-left">类目管理</h1>
+      <div class="headBox-right">
+<!--        <a-input-search class="headBox-right-item" v-model="searchInput.name" placeholder="请输入" @search="onSearch" />-->
+        <a-button type="primary" @click="clickButton('','add')"><a-icon type="plus"/>新增</a-button>
+      </div>
     </div>
     <a-table :columns="columns" :data-source="data">
       <span slot="action" slot-scope="text, record" class="actionbutton">
@@ -20,14 +23,18 @@
         </a-form-model-item>
       </a-form-model>
     </a-modal>
-  </a-card>
+  </div>
 </template>
 
 <script>
 
+import {mapState} from "vuex";
+
 export default {
   name: "category",
-
+  computed: {
+    ...mapState('setting', ['pageMinHeight']),
+  },
   data() {
     return {
       modal:{modalShow:false,title:"", del:false,text:""},
@@ -128,5 +135,6 @@ export default {
 }
 </style>
 <style scoped lang="sass">
-@import "../../pages/commonality/css/unified"
+@import "src/pages/commonality/css"
+//@import "css"
 </style>
